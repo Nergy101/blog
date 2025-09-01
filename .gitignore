@@ -1,0 +1,42 @@
+# Build output (generated)
+dist/
+
+# Dependency directories (not used by Deno, but safe to ignore if present)
+node_modules/
+
+# Caches and temp files
+.cache/
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+.DS_Store?
+Thumbs.db
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Coverage
+coverage/
+
+# Deno (if a local DENO_DIR is used)
+.deno/
+

@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "build": "deno run --allow-read --allow-write --allow-run build.ts",
+    "serve": "deno run --allow-read --allow-net --allow-run serve.ts",
+    "dev": "deno task build && deno task serve"
+  },
+  "imports": {
+    "astrodon": "jsr:@nergy101/astrodon@0.1.3"
+  }
+}
