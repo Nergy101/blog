@@ -307,23 +307,28 @@ a:hover {
 }
 
 /* Ensure Astrodon and About me are always the last two (in this order) */
-.navbar-nav > li:has(> a[href="/astrodon"]) {
+.navbar-nav > li:has(> a[href="/astrodon"]),
+.navbar-nav > li:has(.nav-dropdown-content > a[href="/astrodon"]) {
   order: 103;
 }
-.navbar-nav > li:has(> a[href="/about_me"]) {
+.navbar-nav > li:has(> a[href="/about_me"]),
+.navbar-nav > li:has(.nav-dropdown-content > a[href="/about_me"]) {
   order: 104;
 }
 
 /* Ensure Blogs are at the left of the navbar */
-.navbar-nav > li:has(> a[href="/blogs"]) {
+.navbar-nav > li:has(> a[href="/blogs"]),
+.navbar-nav > li:has(.nav-dropdown-content > a[href="/blogs"]) {
   order: 100;
 }
-/* Ensure Projects are at the right of the navbar */
-.navbar-nav > li:has(> a[href="/projects"]) {
+/* Ensure Projects come after Blogs */
+.navbar-nav > li:has(> a[href="/projects"]),
+.navbar-nav > li:has(.nav-dropdown-content > a[href="/projects"]) {
   order: 101;
 }
-/* Ensure Tools are at the right of the navbar */
-.navbar-nav > li:has(> a[href="/tools"]) {
+/* Ensure Tools come after Projects */
+.navbar-nav > li:has(> a[href="/tools"]),
+.navbar-nav > li:has(.nav-dropdown-content > a[href="/tools"]) {
   order: 102;
 }
 
