@@ -5,6 +5,6 @@
     "dev": "deno task build && deno task serve"
   },
   "imports": {
-    "astrodon": "jsr:@nergy101/astrodon@0.1.5"
+    "astrodon": "jsr:@nergy101/astrodon@0.1.6"
   }
 }
