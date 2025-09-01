@@ -47,3 +47,5 @@ CMD ["run", "--allow-read=./dist", "--allow-net", "--allow-run", "./serve.ts"]
 # docker run --rm -p 8000:8000 blog
 # docker tag blog nergy101/blog:latest
 # docker push nergy101/blog:latest
+
+# docker build -t blog . && docker tag blog nergy101/blog:latest && docker push nergy101/blog:latest

@@ -306,12 +306,25 @@ a:hover {
   flex: 1;
 }
 
-/* Ensure Demo and About me are always the last two (in this order) */
-.navbar-nav > li:has(> a[href="/demo"]) {
-  order: 100;
+/* Ensure Astrodon and About me are always the last two (in this order) */
+.navbar-nav > li:has(> a[href="/astrodon"]) {
+  order: 103;
 }
 .navbar-nav > li:has(> a[href="/about_me"]) {
+  order: 104;
+}
+
+/* Ensure Blogs are at the left of the navbar */
+.navbar-nav > li:has(> a[href="/blogs"]) {
+  order: 100;
+}
+/* Ensure Projects are at the right of the navbar */
+.navbar-nav > li:has(> a[href="/projects"]) {
   order: 101;
+}
+/* Ensure Tools are at the right of the navbar */
+.navbar-nav > li:has(> a[href="/tools"]) {
+  order: 102;
 }
 
 .nav-item {

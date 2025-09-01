@@ -1,13 +1,24 @@
 ---
-title: Demo - Markdown & Lua Interpolation Showcase
+title: Astrodon - Markdown & Lua Interpolation Showcase
 date: 2025-01-15
 author: Christian / Nergy101
-tags: [demo, markdown, lua, interpolation, showcase, hybrid, static, dynamic]
+tags: [astrodon, demo, markdown, ssg, ssr, deno, lua]
 ---
 
-# Demo - Markdown & Lua Interpolation Showcase
+## What is Astrodon?
 
-Welcome to the comprehensive demo page! This showcases **all the different markdown features** combined with **dynamic Lua interpolation** using both build-time and runtime execution.
+Astrodon is a fast, modern static‑site generator for Deno that blends Markdown with Lua. Render values at build time for speed, or securely execute WASM Lua for live content.
+
+- **Markdown‑first**: Write pages in plain `.md`
+- **Lua interpolation**: Use `{{lua:script:args}}` at build time; secure runtime execution with WASMOON
+- **Optimized assets**: Automatic WebP conversion and caching
+- **Simple usage**: `build()` to generate, `serve()` to host
+
+---
+
+## Markdown & Lua Interpolation Showcase
+
+Welcome to the comprehensive Astrodon demo page! This showcases **all the different markdown features** combined with **dynamic Lua interpolation** using both build-time and runtime execution.
 
 ## 🎯 The Hybrid Approach
 
