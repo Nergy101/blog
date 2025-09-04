@@ -10,7 +10,7 @@ tags: [astrodon, demo, markdown, ssg, ssr, deno, lua]
 Astrodon is a fast, modern static‑site generator for Deno that blends Markdown with Lua. Render values at build time for speed, or securely execute WASM Lua for live content.
 
 - **Markdown‑first**: Write pages in plain `.md`
-- **Lua interpolation**: Use `{{lua:script:args}}` at build time; secure runtime execution with WASMOON
+- **Lua interpolation**: State which lua scripts you use at build time within markdown; then it's securely executed with WASMOON.
 - **Optimized assets**: Automatic WebP conversion and caching
 - **Simple usage**: `build()` to generate, `serve()` to host
 
