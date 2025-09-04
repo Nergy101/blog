@@ -301,7 +301,7 @@ How this maps to `renovate.json`:
 - Breaking updates are isolated into "Breaking updates npm" and "Breaking updates nuget". Majors go here by default; pinned NPM deps and `~`‑ranged minors are treated as breaking; NuGet pre‑1.0 updates are treated as breaking.
 - Internal NuGet packages matching `My.Company` get a dedicated group: "My.Company package updates nuget".
 - Global auto‑merge is enabled (`automerge: true`) with merge commits (`automergeType: "pr"`, `automergeStrategy: "merge-commit"`).
-- Operational: runs on Azure DevOps (`platform: "azure"`), no PR rate limit (`prHourlyLimit: 0`), and common folders are ignored (`node_modules`, `bower_components`).
+- Operational: runs on Azure DevOps (`platform: "azure"`), no PR rate limit (`prHourlyLimit: 0`), and common folders are ignored (`node modules`, `bower components`).
 - In total that should make 4-6 PRs at a time for the configured repository.
 
 Final tips:
