@@ -203,7 +203,7 @@ class DynamicContentLoader {
       await this.getRandomQuote('#dynamic-quote');
     };
     updateQuote();
-    const quoteInterval = setInterval(updateQuote, 10000);
+    const quoteInterval = setInterval(updateQuote, 5000);
     this.intervals.set('#dynamic-quote', quoteInterval);
 
     console.log('Dynamic content initialized successfully');

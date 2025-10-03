@@ -47,7 +47,11 @@ This demo demonstrates two approaches to Lua integration:
 
 **Live Counter:** <span id="dynamic-counter">Loading...</span>
 
-**Live Quote:** <span id="dynamic-quote">Loading...</span>
+**Live Quote:**
+
+> <span id="dynamic-quote">Loading...</span>
+
+Refreshes every 5 seconds.
 
 ---
 

@@ -34,7 +34,7 @@ I've been exploring some interesting topics lately:
 
 ## 🚀 Featured Demo
 
-Check out the **[Hybrid Lua Demo](/hybrid-demo)** to see how this site combines static build-time caching with dynamic runtime Lua execution for optimal performance!
+Check out the **[Astrodon -Hybrid Lua Demo](/astrodon)** to see how this site combines static build-time caching with dynamic runtime Lua execution for optimal performance!
 
 ## Let's Connect
 
