@@ -15,6 +15,8 @@ Just to name a few:
 
 - Firebase
 - Supabase
+- Appwrite
+- Convex
 - AWS Amplify
 - The list goes on and on and on
 
