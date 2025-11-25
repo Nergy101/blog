@@ -13,14 +13,14 @@ I'm sure you've all heard of Backend as a Service or BaaS.
 
 Just to name a few:
 
-- Firebase
-- Supabase
-- Appwrite
-- Convex
-- AWS Amplify
+- [Firebase](https://firebase.google.com/)
+- [Supabase](https://supabase.com/)
+- [Appwrite](https://appwrite.io/)
+- [Convex](https://www.convex.dev/)
+- [AWS Amplify](https://aws.amazon.com/amplify/)
 - The list goes on and on and on
 
-Today we will dive a bit into PocketBase and why I have been using it to build [Tovedem](https://tovedem.nergy.space), rather rapidly and carefree in combination with Angular.
+Today we will dive into [PocketBase](https://pocketbase.io) and why I have been using it to build [Tovedem](https://tovedem.nergy.space), rather rapidly and carefree in combination with Angular.
 So this blog will go over the basics of PocketBase, how to get started, how to use the JavaScript SDK, and how to use PocketBase with a typed service in Angular.
 
 This combination of PocketBase and Angular has been a great experience and I have been able to build a lot of features quickly and easily. Definitely worth a try for quick (hobby-)projects or prototypes.
