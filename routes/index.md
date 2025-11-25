@@ -11,8 +11,9 @@ Hello there! I'm **Christian** (also known as **Nergy101** online), and this is 
 
 For some of my other works, see:
 
-- [👾 RetroRanker](https://retroranker.site)
-- [👨🏻‍💻 Portfolio](https://portfolio.nergy.space)
+- [👾 RetroRanker - Gaming handhelds ranking and comparison](https://retroranker.site)
+- [🎭 Tovedem - Theater Management System](https://tovedem.nergy.space)
+- [👨🏻‍💻 Portfolio - My personal portfolio](https://portfolio.nergy.space)
 
 ## What You'll Find Here
 
