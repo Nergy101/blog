@@ -194,42 +194,88 @@ export interface Group extends BaseModel {
 }
 ```
 
-And here's the typed CRUD flow that uses it:
+And here's the typed CRUD flow wired into an Angular component, it's a bit illustrative for this example but it shows the power of the typed service and how it can be used to build a robust application.
 
 ```typescript
-import { inject } from "@angular/core";
+import { Component, OnInit, inject, signal, computed } from "@angular/core";
 import { PocketbaseService } from "@/app/shared/services/pocketbase.service";
 import { Group } from "@/app/models/domain/group.model";
+import { Page } from "@/app/models/pocketbase/page.model";
 
-const pocketbase = inject(PocketbaseService);
+@Component({
+  selector: "app-group-admin",
+  templateUrl: "./group-admin.component.html",
+})
+export class GroupAdminComponent implements OnInit {
+  private readonly pocketbase = inject(PocketbaseService);
 
-async function demoGroupCrud() {
-  // READ - strongly typed list & detail
-  const groups = await pocketbase.getAll<Group>("groups");
-  const group = await pocketbase.getOne<Group>("groups", groups[0].id, {
-    expand: "members",
-  });
+  readonly groups = signal<Group[]>([]);
+  readonly selected = signal<Group | null>(null);
+  readonly page = signal<Page<Group> | null>(null);
+  readonly loading = signal(false);
 
-  // PAGINATE - strongly typed pages
-  const page = await pocketbase.getPage<Group>("groups", 1, 10, {
-    expand: "members",
-  });
-  console.log(`First page has ${page.items.length} groups`);
+  readonly totalGroups = computed(
+    () => this.page()?.totalItems ?? this.groups().length
+  );
 
-  // CREATE - compiler enforces required Group fields
-  const created = await pocketbase.create<Group>("groups", {
-    name: "New Ensemble",
-    description: "Pop-up choir for Winterfest",
-  });
+  async ngOnInit(): Promise<void> {
+    await this.loadGroups();
+  }
 
-  // UPDATE - keeps ids & optional fields typed
-  const updated = await pocketbase.update<Group>("groups", {
-    ...created,
-    description: "Pop-up choir for Winterfest 2025",
-  });
+  async onGroupCreate(formValue: Pick<Group, "name" | "description">) {
+    const created = await this.pocketbase.create<Group>("groups", {
+      name: formValue.name,
+      description: formValue.description,
+    });
+    this.groups.update((list) => [...list, created]);
+  }
 
-  // DELETE - collection-only helper for clean-up
-  await pocketbase.delete("groups", updated.id);
+  async onGroupUpdate(group: Group) {
+    const updated = await this.pocketbase.update<Group>("groups", group);
+    this.selected.set(updated);
+    await this.loadGroups();
+  }
+
+  async onGroupDelete(id: string) {
+    await this.pocketbase.delete("groups", id);
+    this.groups.update((list) => list.filter((g) => g.id !== id));
+    if (this.selected()?.id === id) {
+      this.selected.set(this.groups()[0] ?? null);
+    }
+  }
+
+  async onRefreshPage(pageNumber = 1) {
+    const nextPage = await this.pocketbase.getPage<Group>(
+      "groups",
+      pageNumber,
+      10,
+      { expand: "members" }
+    );
+    this.page.set(nextPage);
+  }
+
+  async onSelect(id: string) {
+    const group = await this.pocketbase.getOne<Group>("groups", id, {
+      expand: "members",
+    });
+    this.selected.set(group);
+  }
+
+  private async loadGroups() {
+    this.loading.set(true);
+    try {
+      const result = await this.pocketbase.getAll<Group>("groups", {
+        expand: "members",
+      });
+      this.groups.set(result);
+      if (result.length) {
+        await this.onSelect(result[0].id);
+      }
+      await this.onRefreshPage();
+    } finally {
+      this.loading.set(false);
+    }
+  }
 }
 ```
 
