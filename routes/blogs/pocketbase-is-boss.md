@@ -5,7 +5,7 @@ author: Christian / Nergy101
 tags: [Pocketbase, Angular, BaaS, Database]
 ---
 
-# PocketBase: The Single-File Backend That's Actually Boss
+# PocketBase & Angular: A Single-File Backend for your next project (and lessons learned with Angular)
 
 My personal favorite for hackathons, prototypes, and small projects.
 
