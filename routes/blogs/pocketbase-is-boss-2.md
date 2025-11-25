@@ -16,7 +16,10 @@ Just to name a few:
 - AWS Amplify
 - The list goes on and on and on
 
-Today we will dive a bit into PocketBase and why I have been using it to build [Tovedem](https://tovedem.nergy.space), rather rapidly and carefree.
+Today we will dive a bit into PocketBase and why I have been using it to build [Tovedem](https://tovedem.nergy.space), rather rapidly and carefree in combination with Angular.
+So this blog will go over the basics of PocketBase, how to get started, how to use the JavaScript SDK, and how to use PocketBase with a typed service in Angular.
+
+This combination of PocketBase and Angular has been a great experience and I have been able to build a lot of features quickly and easily. Definitely worth a try for quick (hobby-)projects or prototypes.
 
 ## Table of Contents
 
