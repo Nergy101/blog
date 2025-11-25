@@ -2,7 +2,9 @@
   "tasks": {
     "build": "deno run --allow-read --allow-write --allow-run build.ts",
     "serve": "deno run --allow-read --allow-net --allow-run serve.ts",
-    "dev": "deno task build && deno task serve"
+    "dev": "deno task build && deno task serve",
+    "watch": "deno run --allow-read --allow-write --allow-run --allow-net watch.ts",
+    "docker:push": "docker build -t blog . && docker tag blog nergy101/blog:latest && docker push nergy101/blog:latest"
   },
   "imports": {
     "astrodon": "jsr:@nergy101/astrodon@0.1.6"

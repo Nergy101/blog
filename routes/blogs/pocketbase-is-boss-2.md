@@ -25,6 +25,7 @@ Today we will dive a bit into PocketBase and why I have been using it to build [
   - [Introduction](#introduction)
   - [Getting Started](#getting-started)
   - [Basic JavaScript SDK Usage](#basic-javascript-sdk-usage)
+  - [Typed PocketBase Service Lessons](#typed-pocketbase-service-lessons)
   - [Conclusion](#conclusion)
 
 ---
@@ -35,15 +36,18 @@ First off, what **is** PocketBase?
 
 [PocketBase](https://pocketbase.io) is a backend service in a single file. It's being built as a framework in Go with a SQLite database backing. As said it is available to use as a framework, but not only that. It's also available as a database + backend application that encompasses most of the basic development work. Think of authentication (O-Auth), managing SQL tables with different relationships, APIs on this data, and real-time feeds.
 
-Another thing;
+Check out the [PocketBase demo](https://pocketbase.io/demo/) to get a feel for what PocketBase is capable of and what the UI looks like.
 
-The documentation is GREAT! While extending PocketBase functionality with Javascript, the documentation is up-to-date and very searchable. One example is the recent update to version 0.23. This had quite a few breaking changes, which were well-documented and easy to follow.
+Another thing; The documentation is GREAT! While extending PocketBase functionality with custom Javascript endpoints, etc. the documentation has always been up-to-date and very searchable. The docs are easy to follow and understand, and breaking changes are well-documented and easy to follow.
 
 ## Getting Started
 
 Let's have a quick look at how to get started with PocketBase.
 
 Self-host in your preferred way, either with Docker or simply by running the executable. Then visit `localhost:8090/_/` to be visited by the dashboard. Within this dashboard, we can manage the authentication providers, database schema, the data inside, logging, and different kinds of settings.
+
+Don't want to self-host? Use [PocketHost](https://pockethost.io/) for a managed PocketBase experience that keeps the zero-config feel without managing servers yourself.
+Of course you still get full access to all the features of PocketBase.
 
 Managing your data schema is really easy & visual,
 Just add the fields you want for a collection, and you're done! Notice how there are some quite complex types you can add easily like rich text editor texts, emails, and whole files. Also, take special mention of the 'relation' type which allows for configuring 1-n or n-1 or 1-1 relationships between different collections.
@@ -53,40 +57,185 @@ Just add the fields you want for a collection, and you're done! Notice how there
 Once you have your PocketBase instance running, you can easily interact with it using the JavaScript SDK. Here's a quick example:
 
 ```javascript
-import PocketBase from 'pocketbase';
+import PocketBase from "pocketbase";
 
 // Initialize the client
-const pb = new PocketBase('http://127.0.0.1:8090');
+const pb = new PocketBase("http://127.0.0.1:8090");
 
 // Authenticate a user
 const authData = await pb
-  .collection('users')
-  .authWithPassword('test@example.com', '1234567890');
+  .collection("users")
+  .authWithPassword("test@example.com", "1234567890");
 
 // Create a new record
 const data = {
-  title: 'My First Post',
-  content: 'Hello PocketBase!',
+  title: "My First Post",
+  content: "Hello PocketBase!",
   author: pb.authStore.model.id,
 };
-const record = await pb.collection('posts').create(data);
+const record = await pb.collection("posts").create(data);
 
 // Fetch records with filtering
-const records = await pb.collection('posts').getList(1, 20, {
+const records = await pb.collection("posts").getList(1, 20, {
   filter: 'created >= "2024-01-01"',
-  sort: '-created',
+  sort: "-created",
 });
 
 // Real-time subscription
-pb.collection('posts').subscribe('*', function (e) {
-  console.log('Real-time update:', e.record);
+pb.collection("posts").subscribe("*", function (e) {
+  console.log("Real-time update:", e.record);
 });
 ```
 
 The SDK makes it incredibly simple to handle authentication, CRUD operations, and real-time updates with just a few lines of code.
 
+## Typed PocketBase Service Lessons
+
+While building [Tovedem](https://tovedem.nergy.space) I wrapped the SDK in an Angular `PocketbaseService` that leans heavily on generics. Every helper (`create`, `update`, `getAll`, `getPage`, …) accepts a `T` type parameter, so TypeScript keeps the rest of my code perfectly aligned with the domain models—assuming those models mirror the PocketBase collections (or at least a subset of them). This buys us a few concrete wins:
+
+- The raw `RecordModel` gets replaced with our own strongly typed models, so returned data is instantly usable.
+- IntelliSense becomes effortless because every field is known up front.
+- Runtime surprises drop—mismatched fields or missing ids show up while coding, not in production.
+- When the PocketBase schema changes, we update the corresponding interface once and the compiler flags every usage that needs attention.
+
+Here's the relevant slice of the service (truncated for brevity) showing how every CRUD helper is typed:
+
+```typescript
+import { inject, Injectable } from "@angular/core";
+import PocketBase, { BaseModel } from "pocketbase";
+import { Environment } from "@/environment";
+import { Page } from "@/app/models/pocketbase/page.model";
+
+type ListOptions = { expand?: string; filter?: string; sort?: string };
+type GetOptions = { expand?: string };
+
+@Injectable({ providedIn: "root" })
+export class PocketbaseService {
+  private environment = inject(Environment);
+  private client = new PocketBase(this.environment.pocketbase.baseUrl);
+
+  async create<T>(collectionName: string, item: Partial<T>): Promise<T> {
+    const result = await this.client.collection(collectionName).create(item);
+    return result as T;
+  }
+
+  async update<T extends BaseModel>(
+    collectionName: string,
+    item: T
+  ): Promise<T> {
+    const result = await this.client
+      .collection(collectionName)
+      .update(item.id, item);
+    return result as T;
+  }
+
+  async getAll<T>(collectionName: string, options?: ListOptions): Promise<T[]> {
+    const data = await this.client
+      .collection(collectionName)
+      .getFullList(options);
+    return data as T[];
+  }
+
+  async getOne<T>(
+    collectionName: string,
+    id: string,
+    options?: GetOptions
+  ): Promise<T> {
+    const data = await this.client
+      .collection(collectionName)
+      .getOne(id, options);
+    return data as T;
+  }
+
+  async getPage<T>(
+    collectionName: string,
+    page: number,
+    perPage: number,
+    options?: GetOptions
+  ): Promise<Page<T>> {
+    const list = await this.client
+      .collection(collectionName)
+      .getList(page, perPage, options);
+    return {
+      ...list,
+      items: list.items as T[],
+    };
+  }
+
+  async delete(collectionName: string, id: string): Promise<boolean> {
+    const result = await this.client.collection(collectionName).delete(id);
+    return result;
+  }
+}
+```
+
+The pagination helper leans on a tiny `Page` interface:
+
+```typescript
+import { ListResult } from "pocketbase";
+
+export interface Page<T> extends ListResult<T> {}
+```
+
+(Defined in `@/app/models/pocketbase/page.model.ts`.)
+
+Here's an example of a `Group` model, a small object that represents a group of users:
+
+```typescript
+import { BaseModel } from "pocketbase";
+
+export interface Group extends BaseModel {
+  name: string;
+  description?: string;
+  images?: string[];
+}
+```
+
+And here's the typed CRUD flow that uses it:
+
+```typescript
+import { inject } from "@angular/core";
+import { PocketbaseService } from "@/app/shared/services/pocketbase.service";
+import { Group } from "@/app/models/domain/group.model";
+
+const pocketbase = inject(PocketbaseService);
+
+async function demoGroupCrud() {
+  // READ - strongly typed list & detail
+  const groups = await pocketbase.getAll<Group>("groups");
+  const group = await pocketbase.getOne<Group>("groups", groups[0].id, {
+    expand: "members",
+  });
+
+  // PAGINATE - strongly typed pages
+  const page = await pocketbase.getPage<Group>("groups", 1, 10, {
+    expand: "members",
+  });
+  console.log(`First page has ${page.items.length} groups`);
+
+  // CREATE - compiler enforces required Group fields
+  const created = await pocketbase.create<Group>("groups", {
+    name: "New Ensemble",
+    description: "Pop-up choir for Winterfest",
+  });
+
+  // UPDATE - keeps ids & optional fields typed
+  const updated = await pocketbase.update<Group>("groups", {
+    ...created,
+    description: "Pop-up choir for Winterfest 2025",
+  });
+
+  // DELETE - collection-only helper for clean-up
+  await pocketbase.delete("groups", updated.id);
+}
+```
+
+Because every method returns `Promise` of `T` (or `Promise` of `Page` of `T` in the pagination helpers), responses stay typed and the compiler points me to every place that needs updating whenever the schema evolves. It's a small abstraction, but it turned the PocketBase SDK into a first-class citizen inside Angular and made refactors far less scary.
+
 ## Conclusion
 
-If you want more on PocketBase, be sure to sign up, follow or even contact me. It's my plan to update this blog into a full tutorial and getting-started. Hope to see you around!
+If you want more on PocketBase, be sure to sign up, follow or even contact me.
+
+It's my plan to update this blog into a full tutorial and getting-started. Hope to see you around!
 
 Cheers, and, by the way, "BaaS" translates to "boss" in Dutch.
