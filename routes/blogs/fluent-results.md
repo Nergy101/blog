@@ -2,7 +2,7 @@
 title: Fluent Results
 date: 2025-01-09
 author: Christian / Nergy101
-tags: [C#, dotnet, FluentResults]
+tags: [C#, .NET, Backend, FluentResults]
 ---
 
 # Fluent Results: A Better Approach to Error Handling

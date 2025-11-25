@@ -2,7 +2,7 @@
 title: PocketBase is Boss
 date: 2025-11-25
 author: Christian / Nergy101
-tags: [Pocketbase]
+tags: [Pocketbase, Angular, BaaS, Database]
 ---
 
 # PocketBase: The Single-File Backend That's Actually Boss

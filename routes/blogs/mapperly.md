@@ -2,7 +2,7 @@
 title: Mapperly vs AutoMapper
 date: 2025-09-01
 author: Christian / Nergy101
-tags: [C#, .NET, mapping, source-generators, BenchmarkDotNet]
+tags: [C#, .NET, Backend, mapping, source-generators, BenchmarkDotNet]
 ---
 
 ### Mapperly: Better mappers and an alternative to AutoMapper

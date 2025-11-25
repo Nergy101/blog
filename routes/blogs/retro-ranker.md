@@ -2,7 +2,7 @@
 title: Retro Ranker
 date: 2025-04-03
 author: Christian / Nergy101
-tags: [deno, retroranker, hobby]
+tags: [deno, SSR, retroranker, hobby]
 ---
 
 # Building Retro Ranker with Deno Fresh: A Developer's Journey
@@ -89,11 +89,11 @@ One of the main challenges was integrating third-party libraries. While Deno's i
 Managing state across islands required careful consideration. I ended up using Preact Signals for reactive state management, which worked well with Fresh's architecture:
 
 ```typescript
-import { signal } from '@preact/signals';
+import { signal } from "@preact/signals";
 
 // Global state management
 export const selectedDevices = signal<Device[]>([]);
-export const comparisonMode = signal<'chart' | 'table'>('chart');
+export const comparisonMode = signal<"chart" | "table">("chart");
 ```
 
 ### Deployment
