@@ -1,0 +1,4 @@
+# Ignore markdown files from formatting
+*.md
+**/*.md
+

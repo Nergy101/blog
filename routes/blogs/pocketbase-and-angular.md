@@ -1,15 +1,40 @@
 ---
-title: PocketBase is Boss
+title: PocketBase and Angular
 date: 2025-11-25
+lastUpdated: 2025-11-25
 author: Christian / Nergy101
 tags: [Pocketbase, Angular, BaaS, Database]
 ---
 
-# PocketBase & Angular: A Single-File Backend for your next project (and lessons learned with Angular)
+# PocketBase & Angular
 
-My personal favorite for hackathons, prototypes, and small projects.
+The combination of [PocketBase](https://pocketbase.io) and [Angular](https://angular.io) is my personal favorite for fast prototyping and hobbying. Of all BaaS offerings, PocketBase is my favorite because:
 
-I'm sure you've all heard of Backend as a Service or BaaS.
+- It's free
+- Easy to host (yourself or hosted for free by [PocketHost](https://pockethost.io/))
+- Easy to use, with a good JavaScript SDK (and Flutter SDK)
+- Being actively developed on [GitHub](https://github.com/pocketbase/pocketbase)
+- Easy to follow OAuth configuration pages for Google, GitHub, Microsoft, and more
+- Simple table management with relational fields and a simple UI
+- It can do custom endpoints by writing simple JS functions
+- It can do CRUD + live-view subscriptions on data
+
+And [Angular](https://angular.io) is my favorite because well... I've worked with it for years.
+It's a great framework for building web applications. It continually evolves with new trends, like using Signals, Vite, and more. It has stood the test of time and is used a lot in enterprise applications.
+
+## Table of Contents
+
+- [PocketBase & Angular](#pocketbase--angular)
+  - [What is a BaaS?](#what-is-a-baas)
+  - [Introduction to PocketBase](#introduction-to-pocketbase)
+  - [Getting Started with PocketBase](#getting-started-with-pocketbase)
+  - [Basic JavaScript SDK Usage](#basic-javascript-sdk-usage)
+  - [Typed PocketBase Angular Service](#typed-pocketbase-angular-service)
+  - [Downsides to using PocketBase](#downsides-to-using-pocketbase)
+  - [Conclusion](#conclusion)
+
+## What is a BaaS?
+A BaaS is a 'backend as a service'. These offerings usually provide a storage mechanism (database), authentication through OAuth and other means, and other services for your application. They are usually very easy to get started with, and very easy to use.
 
 Just to name a few:
 
@@ -25,19 +50,9 @@ So this blog will go over the basics of PocketBase, how to get started, how to u
 
 This combination of PocketBase and Angular has been a great experience and I have been able to build a lot of features quickly and easily. Definitely worth a try for quick (hobby-)projects or prototypes.
 
-## Table of Contents
-
-- [PocketBase: The Single-File Backend That's Actually Boss](#pocketbase-the-single-file-backend-thats-actually-boss)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Getting Started](#getting-started)
-  - [Basic JavaScript SDK Usage](#basic-javascript-sdk-usage)
-  - [Typed PocketBase Service Lessons](#typed-pocketbase-service-lessons)
-  - [Conclusion](#conclusion)
-
 ---
 
-## Introduction
+## Introduction to PocketBase
 
 First off, what **is** PocketBase?
 
@@ -47,7 +62,7 @@ Check out the [PocketBase demo](https://pocketbase.io/demo/) to get a feel for w
 
 Another thing; The documentation is GREAT! While extending PocketBase functionality with custom Javascript endpoints, etc. the documentation has always been up-to-date and very searchable. The docs are easy to follow and understand, and breaking changes are well-documented and easy to follow.
 
-## Getting Started
+## Getting Started with PocketBase
 
 Let's have a quick look at how to get started with PocketBase.
 
@@ -58,6 +73,17 @@ Of course you still get full access to all the features of PocketBase.
 
 Managing your data schema is really easy & visual,
 Just add the fields you want for a collection, and you're done! Notice how there are some quite complex types you can add easily like rich text editor texts, emails, and whole files. Also, take special mention of the 'relation' type which allows for configuring 1-n or n-1 or 1-1 relationships between different collections.
+
+<div class="readable-image">
+  <figure>
+    <div class="image-scroll">
+      <img src="/assets/pocketbase/image.jpeg" alt="PocketBase dashboard showing device_comments collection from retroranker.site" />
+    </div>
+    <figcaption>
+      Screenshot from the PocketBase instance for <a href="https://retroranker.site" target="_blank">retroranker.site</a> showing the PocketBase dashboard with the <code>device comments</code> collection. Notice how relational fields (like <code>user</code> and <code>device</code>) display readable names like "nergy101" instead of string IDs, making it much easier to work with your data in the admin interface.
+    </figcaption>
+  </figure>
+</div>
 
 ## Basic JavaScript SDK Usage
 
@@ -96,7 +122,7 @@ pb.collection("posts").subscribe("*", function (e) {
 
 The SDK makes it incredibly simple to handle authentication, CRUD operations, and real-time updates with just a few lines of code.
 
-## Typed PocketBase Service Lessons
+## Typed PocketBase Angular Service
 
 While building [Tovedem](https://tovedem.nergy.space) I wrapped the SDK in an Angular `PocketbaseService` that leans heavily on generics. Every helper (`create`, `update`, `getAll`, `getPage`, …) accepts a `T` type parameter, so TypeScript keeps the rest of my code perfectly aligned with the domain models—assuming those models mirror the PocketBase collections (or at least a subset of them). This buys us a few concrete wins:
 
@@ -126,13 +152,11 @@ export class PocketbaseService {
     return result as T;
   }
 
-  async update<T extends BaseModel>(
-    collectionName: string,
-    item: T
-  ): Promise<T> {
+  async update<T extends BaseModel>(collectionName: string, item: T): Promise<T> {
     const result = await this.client
       .collection(collectionName)
       .update(item.id, item);
+      
     return result as T;
   }
 
@@ -140,29 +164,23 @@ export class PocketbaseService {
     const data = await this.client
       .collection(collectionName)
       .getFullList(options);
+
     return data as T[];
   }
 
-  async getOne<T>(
-    collectionName: string,
-    id: string,
-    options?: GetOptions
-  ): Promise<T> {
+  async getOne<T>(collectionName: string, id: string, options?: GetOptions): Promise<T> {
     const data = await this.client
       .collection(collectionName)
       .getOne(id, options);
+
     return data as T;
   }
 
-  async getPage<T>(
-    collectionName: string,
-    page: number,
-    perPage: number,
-    options?: GetOptions
-  ): Promise<Page<T>> {
+  async getPage<T>(collectionName: string, page: number, perPage: number, options?: GetOptions): Promise<Page<T>> {
     const list = await this.client
       .collection(collectionName)
       .getList(page, perPage, options);
+
     return {
       ...list,
       items: list.items as T[],
@@ -285,10 +303,36 @@ export class GroupAdminComponent implements OnInit {
 
 Because every method returns `Promise` of `T` (or `Promise` of `Page` of `T` in the pagination helpers), responses stay typed and the compiler points me to every place that needs updating whenever the schema evolves. It's a small abstraction, but it turned the PocketBase SDK into a first-class citizen inside Angular and made refactors far less scary.
 
+
+## Downsides to using PocketBase
+
+- **Database migrations** are not supported. You have to manually update the schema in the database. This includes transformations of existing data, making it difficult to make changes to the schema without losing data.
+- **Custom query language** might be a bit limited. You can't use SQL queries, only the PocketBase query language. This can be limiting for complex queries.
+- **Performance** might be a bit limited. It's not designed for very high-traffic applications.
+  - But your mileage may vary up to a few 1000 requests per second, and let's be honest, most applications don't need that many requests per second.
+- **Storage space for files** is limited to the storage specs of where you host PocketBase. The only integration to cloud storage is S3-compatible storage.
+
 ## Conclusion
+
+So why choose PocketBase over other BaaS options like Firebase, Supabase, or Appwrite? The combination of PocketBase with a typed Angular service gives you several key advantages:
+
+**Compared to other BaaS solutions:**
+
+- **Self-hosting freedom**: Unlike Firebase or AWS Amplify, you can run PocketBase anywhere—on your own server, a Raspberry Pi, or use PocketHost for free managed hosting. This gives you complete control over your data and infrastructure.
+- **Simplicity**: PocketBase's single-file deployment and SQLite backend mean zero configuration headaches. No complex cloud setups, no vendor lock-in, just a simple executable that works.
+- **Type safety**: By wrapping the SDK in a typed service (as shown above), you get compile-time guarantees that catch errors before they reach production. This is especially valuable when working with rapidly evolving schemas.
+- **Cost**: It's completely free and open-source. While other BaaS platforms have free tiers, they often come with limitations that can bite you as you scale. PocketBase scales with your infrastructure, not your wallet.
+- **Developer experience**: The admin UI is intuitive, the documentation is excellent, and the ability to write custom endpoints in JavaScript makes it easy to extend functionality without leaving the ecosystem.
+- **SQLite**: The database is SQLite, which makes it very lightweight and easy to backup, move, etc.
+
+The typed service pattern I've shown here transforms PocketBase from a great BaaS into a first-class TypeScript citizen. When your schema changes, TypeScript will guide you to every place that needs updating—no more runtime surprises or manual grep searches through your codebase.
 
 If you want more on PocketBase, be sure to sign up, follow or even contact me.
 
 It's my plan to update this blog into a full tutorial and getting-started. Hope to see you around!
 
 Cheers, and, by the way, "BaaS" translates to "boss" in Dutch.
+
+---
+
+_Last updated: 2025-11-25_
