@@ -42,12 +42,11 @@ I'm a **full-stack developer** with a passion for creating innovative digital so
 <div class="project-card">
   <div class="project-content">
     <h3>🌌 Astrodon (This Blog)</h3>
-    <p class="project-description">A lightning-fast static site generator built with Deno and TypeScript, featuring Lua scripting integration and advanced markdown processing. 
+    <p class="project-description">A lightning-fast static site generator built with Deno and TypeScript, featuring advanced markdown processing and dynamic content generation. 
     The blog you're looking at is built with it!</p>
     <div class="project-tech">
       <span class="tech-tag">Deno</span>
       <span class="tech-tag">TypeScript</span>
-      <span class="tech-tag">Lua</span>
       <span class="tech-tag">Markdown</span>
     </div>
     <div class="project-links">
