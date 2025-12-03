@@ -7,6 +7,6 @@
     "docker:push": "docker build -t blog . && docker tag blog nergy101/blog:latest && docker push nergy101/blog:latest"
   },
   "imports": {
-    "astrodon": "jsr:@nergy101/astrodon@0.2.1"
+    "astrodon": "jsr:@nergy101/astrodon@0.2.4"
   }
 }

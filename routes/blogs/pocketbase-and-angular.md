@@ -8,16 +8,19 @@ tags: [Pocketbase, Angular, BaaS, Database]
 
 # PocketBase & Angular
 
-The combination of [PocketBase](https://pocketbase.io) and [Angular](https://angular.io) is my personal favorite for fast prototyping and hobbying. Of all BaaS offerings, PocketBase is my favorite because:
+The combination of [PocketBase](https://pocketbase.io) and [Angular](https://angular.io) is my personal favorite for fast prototyping and hobbying. What makes PocketBase stand out is how it manages to pack enterprise-grade features into a single executable while keeping the developer experience refreshingly simple. You get a complete backend solution that feels like it was built by developers who actually understand the pain points of modern web development.
 
-- It's free
-- Easy to host (yourself or hosted for free by [PocketHost](https://pockethost.io/))
-- Easy to use, with a good JavaScript SDK (and Flutter SDK)
-- Being actively developed on [GitHub](https://github.com/pocketbase/pocketbase)
-- Easy to follow OAuth configuration pages for Google, GitHub, Microsoft, and more
-- Simple table management with relational fields and a simple UI
-- It can do custom endpoints by writing simple JS functions
-- It can do CRUD + live-view subscriptions on data
+Of all [BaaS](#what-is-a-baas) offerings, PocketBase is my favorite because it delivers everything you need without the typical BaaS headaches:
+
+- Easy to use, with a good JavaScript SDK (and Flutter SDK) that makes integration seamless
+- Being actively developed on [GitHub](https://github.com/pocketbase/pocketbase) with a responsive community
+- Easy to follow OAuth configuration pages for Google, GitHub and Microsoft. No more wrestling with cryptic OAuth setups 🥳🎉
+- Simple table management with relational fields and an intuitive UI that makes schema design feel natural
+- It can do custom endpoints by writing simple JS functions, giving you the flexibility to extend functionality without leaving the ecosystem
+- You can hook-in on events like 'beforeCreate', 'beforeUpdate', 'beforeDelete', 'afterCreate', 'afterUpdate', 'afterDelete', etc. to do custom logic when you want to do something custom.
+- It can do CRUD + live-view subscriptions on data, so real-time features come built-in
+- Easy to host (yourself or hosted for free by [PocketHost](https://pockethost.io/)), deploy it anywhere, from your Raspberry Pi to a managed service
+- And the best part? **It's completely free**. All of these features, and it costs you nothing
 
 And [Angular](https://angular.io) is my favorite because well... I've worked with it for years.
 It's a great framework for building web applications. It continually evolves with new trends, like using Signals, Vite, and more. It has stood the test of time and is used a lot in enterprise applications.
@@ -46,7 +49,7 @@ Just to name a few:
 - The list goes on and on and on
 
 Today we will dive into [PocketBase](https://pocketbase.io) and why I have been using it to build [Tovedem](https://tovedem.nergy.space), rather rapidly and carefree in combination with [Angular](https://angular.io).
-So this blog will go over the basics of PocketBase, how to get started, how to use the JavaScript SDK, and how to use PocketBase with a typed service in Angular.
+So this blog will go over the basics of [PocketBase](#introduction-to-pocketbase), [how to get started](#getting-started-with-pocketbase), [how to use the JavaScript SDK](#basic-javascript-sdk-usage), and how to use PocketBase with [a typed service in Angular](#typed-pocketbase-angular-service).
 
 This combination of PocketBase and Angular has been a great experience and I have been able to build a lot of features quickly and easily. Definitely worth a try for quick (hobby-)projects or prototypes.
 
@@ -71,8 +74,8 @@ Self-host in your preferred way, either with Docker or simply by running the exe
 Don't want to self-host? Use [PocketHost](https://pockethost.io/) for a managed PocketBase experience that keeps the zero-config feel without managing servers yourself.
 Of course you still get full access to all the features of PocketBase.
 
-Managing your data schema is really easy & visual,
-Just add the fields you want for a collection, and you're done! Notice how there are some quite complex types you can add easily like rich text editor texts, emails, and whole files. Also, take special mention of the 'relation' type which allows for configuring 1-n or n-1 or 1-1 relationships between different collections.
+Managing your data schema is really easy and visual,
+just add the fields you want for a collection, and you're done! Notice how there are some complex types you can add easily like rich text editor texts, emails, and whole files. Also, take special mention of the 'relation' type which allows for configuring 1-n or n-1 or 1-1 relationships between different collections.
 
 <div class="readable-image">
   <figure>
@@ -120,15 +123,17 @@ pb.collection("posts").subscribe("*", function (e) {
 });
 ```
 
+Of course, for this to work, you need to create a collection named `posts` in the PocketBase instance with the fields `title`, `content`, and `author`. The `id`, `created`, `updated` fields are created automatically in every collection.
+
 The SDK makes it incredibly simple to handle authentication, CRUD operations, and real-time updates with just a few lines of code.
 
 ## Typed PocketBase Angular Service
 
-While building [Tovedem](https://tovedem.nergy.space) I wrapped the SDK in an Angular `PocketbaseService` that leans heavily on generics. Every helper (`create`, `update`, `getAll`, `getPage`, …) accepts a `T` type parameter, so TypeScript keeps the rest of my code perfectly aligned with the domain models—assuming those models mirror the PocketBase collections (or at least a subset of them). This buys us a few concrete wins:
+While building [Tovedem](https://tovedem.nergy.space) I wrapped [the SDK](#basic-javascript-sdk-usage) in an Angular `PocketbaseService` that leans heavily on generics. Every helper (`create`, `update`, `getAll`, `getPage`, …) accepts a `T` type parameter, so TypeScript keeps the rest of my code perfectly aligned with the domain models, assuming those models mirror the PocketBase collections (or at least a subset of them). This buys us a few concrete wins:
 
-- The raw `RecordModel` gets replaced with our own strongly typed models, so returned data is instantly usable.
-- IntelliSense becomes effortless because every field is known up front.
-- Runtime surprises drop—mismatched fields or missing ids show up while coding, not in production.
+- The raw `RecordModel` of PocketBase gets replaced with our own strongly typed models, so returned data is instantly usable and typed.
+- IntelliSense becomes effortless because every field is now known up front.
+- Runtime surprises drop as mismatched fields show up while coding compile-time, not only during runtime or in production.
 - When the PocketBase schema changes, we update the corresponding interface once and the compiler flags every usage that needs attention.
 
 Here's the relevant slice of the service (truncated for brevity) showing how every CRUD helper is typed:
@@ -202,7 +207,7 @@ import { ListResult } from "pocketbase";
 export interface Page<T> extends ListResult<T> {}
 ```
 
-(Defined in `@/app/models/pocketbase/page.model.ts`.)
+(Defined in `@/app/models/pocketbase/page.model.ts`)
 
 Here's an example of a `Group` model, a small object that represents a group of users:
 
@@ -216,7 +221,7 @@ export interface Group extends BaseModel {
 }
 ```
 
-And here's the typed CRUD flow wired into an Angular component, it's a bit illustrative for this example but it shows the power of the typed service and how it can be used to build a robust application.
+And here's the typed CRUD flow wired into an Angular component, it's a bit illustrative for this example but it shows the power of [the typed service](#typed-pocketbase-angular-service) and how it can be used to build a robust application.
 
 ```typescript
 import { Component, OnInit, inject, signal, computed } from "@angular/core";
@@ -301,31 +306,40 @@ export class GroupAdminComponent implements OnInit {
 }
 ```
 
-Because every method returns `Promise` of `T` (or `Promise` of `Page` of `T` in the pagination helpers), responses stay typed and the compiler points me to every place that needs updating whenever the schema evolves. It's a small abstraction, but it turned the PocketBase SDK into a first-class citizen inside Angular and made refactors far less scary.
+Because every method returns `Promise` of `T` (or `Promise` of `Page` of `T` in the pagination helpers), responses stay typed and the compiler points me to every place that needs updating whenever the schema evolves. It's a small abstraction, but it turned [the PocketBase SDK](#basic-javascript-sdk-usage) into a first-class citizen inside Angular and made refactors far less scary.
 
 
 ## Downsides to using PocketBase
 
 - **Database migrations** are not supported. You have to manually update the schema in the database. This includes transformations of existing data, making it difficult to make changes to the schema without losing data.
 - **Custom query language** might be a bit limited. You can't use SQL queries, only the PocketBase query language. This can be limiting for complex queries.
-- **Performance** might be a bit limited. It's not designed for very high-traffic applications.
-  - But your mileage may vary up to a few 1000 requests per second, and let's be honest, most applications don't need that many requests per second.
 - **Storage space for files** is limited to the storage specs of where you host PocketBase. The only integration to cloud storage is S3-compatible storage.
+
+Seperate note about **performance**:
+**[Does it scale?](https://pocketbase.io/faq)**
+
+The [FAQ](https://pocketbase.io/faq) states:
+> Only on a single server, aka. vertical. Most of the time, you may not need the complexity of managing a fleet of machines and services just to run your backend.
+> PocketBase could be a great choice for small and midsize applications - SaaS, mobile api backend, intranet, etc.
+> Even without optimizations, PocketBase can easily serve 10 000+ persistent realtime connections on a cheap $4 Hetzner CAX11 VPS (2vCPU, 4GB RAM).
+> You can find performance tests for various read&write operations in the official benchmarks repo .
+> There is still room for improvements (I haven't done extensive profiling yet), but the current performance is already good enough for the type of applications PocketBase is intended for.
 
 ## Conclusion
 
-So why choose PocketBase over other BaaS options like Firebase, Supabase, or Appwrite? The combination of PocketBase with a typed Angular service gives you several key advantages:
+So why choose PocketBase over other [BaaS](#what-is-a-baas) options like Firebase, Supabase, or Appwrite? 
 
-**Compared to other BaaS solutions:**
+The combination of PocketBase with [a typed Angular service](#typed-pocketbase-angular-service) gives you **several key advantages**:
 
-- **Self-hosting freedom**: Unlike Firebase or AWS Amplify, you can run PocketBase anywhere—on your own server, a Raspberry Pi, or use PocketHost for free managed hosting. This gives you complete control over your data and infrastructure.
+
+- **Self-hosting freedom**: Unlike Firebase or AWS Amplify, you can run PocketBase anywhere, on your own server, a Raspberry Pi, or use PocketHost for free managed hosting. This gives you complete control over your data and infrastructure.
 - **Simplicity**: PocketBase's single-file deployment and SQLite backend mean zero configuration headaches. No complex cloud setups, no vendor lock-in, just a simple executable that works.
-- **Type safety**: By wrapping the SDK in a typed service (as shown above), you get compile-time guarantees that catch errors before they reach production. This is especially valuable when working with rapidly evolving schemas.
-- **Cost**: It's completely free and open-source. While other BaaS platforms have free tiers, they often come with limitations that can bite you as you scale. PocketBase scales with your infrastructure, not your wallet.
-- **Developer experience**: The admin UI is intuitive, the documentation is excellent, and the ability to write custom endpoints in JavaScript makes it easy to extend functionality without leaving the ecosystem.
+- **Type safety**: [By wrapping the SDK in a typed service](#typed-pocketbase-angular-service) (as shown above), you get compile-time guarantees that catch errors before they reach production. This is especially valuable when working with rapidly evolving schemas.
+- **Cost**: It's completely free and open-source. While other BaaS platforms have free tiers, they often come with limitations that can bite you as you scale. For small to midsize projects, PocketBase is a great (FREE!) choice.
+- **Developer experience**: The admin UI is intuitive, the documentation is excellent, and the ability to write custom endpoints and hooks in JavaScript makes it easy to extend functionality without leaving the ecosystem.
 - **SQLite**: The database is SQLite, which makes it very lightweight and easy to backup, move, etc.
 
-The typed service pattern I've shown here transforms PocketBase from a great BaaS into a first-class TypeScript citizen. When your schema changes, TypeScript will guide you to every place that needs updating—no more runtime surprises or manual grep searches through your codebase.
+The [typed service pattern](#typed-pocketbase-angular-service) I've shown here transforms PocketBase from a great BaaS into a first-class TypeScript citizen. When your schema changes, TypeScript will guide you to every place that needs updating, no more runtime surprises or manual grep searches through your codebase.
 
 If you want more on PocketBase, be sure to sign up, follow or even contact me.
 
