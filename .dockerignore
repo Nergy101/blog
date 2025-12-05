@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Development files
+watch.ts
+.prettierignore
+
+# Build artifacts (will be created in container)
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
