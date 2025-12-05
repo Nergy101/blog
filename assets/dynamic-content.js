@@ -22,9 +22,9 @@ class BackToTopButton {
   }
 
   createButton() {
-    this.button = document.createElement('button');
-    this.button.className = 'back-to-top';
-    this.button.setAttribute('aria-label', 'Back to top');
+    this.button = document.createElement("button");
+    this.button.className = "back-to-top";
+    this.button.setAttribute("aria-label", "Back to top");
     this.button.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 15l-6-6-6 6"/>
@@ -36,7 +36,7 @@ class BackToTopButton {
   bindEvents() {
     // Scroll event
     window.addEventListener(
-      'scroll',
+      "scroll",
       () => {
         this.checkScrollPosition();
       },
@@ -44,13 +44,13 @@ class BackToTopButton {
     );
 
     // Click event
-    this.button.addEventListener('click', () => {
+    this.button.addEventListener("click", () => {
       this.scrollToTop();
     });
 
     // Keyboard navigation
-    this.button.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
+    this.button.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         this.scrollToTop();
       }
@@ -61,23 +61,23 @@ class BackToTopButton {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     if (scrollTop > this.scrollThreshold) {
-      this.button.classList.add('visible');
+      this.button.classList.add("visible");
     } else {
-      this.button.classList.remove('visible');
+      this.button.classList.remove("visible");
     }
   }
 
   scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }
 }
 
 class DynamicContentLoader {
   constructor() {
-    this.baseUrl = '/lua-scripts';
+    this.baseUrl = "/lua-scripts";
     this.intervals = new Map();
   }
 
@@ -86,7 +86,7 @@ class DynamicContentLoader {
    * @param {string} format - Time format
    * @returns {Promise<string>} Formatted time
    */
-  async getTime(format = 'iso') {
+  async getTime(format = "iso") {
     try {
       const response = await fetch(`${this.baseUrl}/time/${format}`);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -94,7 +94,7 @@ class DynamicContentLoader {
       return data.time;
     } catch (error) {
       console.error(`Time API error for format ${format}:`, error);
-      return '[Error loading time]';
+      return "[Error loading time]";
     }
   }
 
@@ -107,8 +107,8 @@ class DynamicContentLoader {
   async executeModule(module, context = {}) {
     try {
       const response = await fetch(`${this.baseUrl}/lua-execute`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ module, context }),
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -116,7 +116,7 @@ class DynamicContentLoader {
       return data.result;
     } catch (error) {
       console.error(`Module execution error for ${module}:`, error);
-      return '[Error executing module]';
+      return "[Error executing module]";
     }
   }
 
@@ -140,7 +140,7 @@ class DynamicContentLoader {
    * @param {string} format - Time format
    * @param {number} interval - Update interval in milliseconds
    */
-  createLiveClock(selector, format = 'time', interval = 1000) {
+  createLiveClock(selector, format = "time", interval = 1000) {
     const updateClock = async () => {
       const time = await this.getTime(format);
       this.updateElement(selector, time);
@@ -162,8 +162,8 @@ class DynamicContentLoader {
    * @param {string} prefix - Counter prefix
    * @param {number} count - Number of items
    */
-  async generateCounter(selector, prefix = 'Item', count = 3) {
-    const result = await this.executeModule('counter', { prefix, count });
+  async generateCounter(selector, prefix = "Item", count = 3) {
+    const result = await this.executeModule("counter", { prefix, count });
     this.updateElement(selector, result);
   }
 
@@ -172,7 +172,7 @@ class DynamicContentLoader {
    * @param {string} selector - CSS selector for the element
    */
   async getRandomQuote(selector) {
-    const result = await this.executeModule('random-quote');
+    const result = await this.executeModule("random-quote");
     this.updateElement(selector, result);
   }
 
@@ -180,33 +180,33 @@ class DynamicContentLoader {
    * Initialize all dynamic content on the page
    */
   async init() {
-    console.log('Initializing dynamic content...');
+    console.log("Initializing dynamic content...");
 
     // Initialize dynamic time (one-time update)
-    const dynamicTime = await this.getTime('friendly');
-    this.updateElement('#dynamic-time', dynamicTime);
+    const dynamicTime = await this.getTime("friendly");
+    this.updateElement("#dynamic-time", dynamicTime);
 
     // Initialize live clock (updates every second)
-    this.createLiveClock('#live-clock', 'time', 1000);
+    this.createLiveClock("#live-clock", "time", 1000);
 
     // Initialize live date (updates every minute)
-    this.createLiveClock('#live-clock-2', 'time', 60000);
+    this.createLiveClock("#live-clock-2", "time", 60000);
 
     // Initialize live friendly time (updates every 5 seconds)
-    this.createLiveClock('#live-friendly', 'friendly', 5000);
+    this.createLiveClock("#live-friendly", "friendly", 5000);
 
     // Initialize dynamic counter (live time updates)
-    this.createLiveClock('#dynamic-counter', 'time', 1000);
+    this.createLiveClock("#dynamic-counter", "time", 1000);
 
     // Initialize dynamic quote (updates every 10 seconds)
     const updateQuote = async () => {
-      await this.getRandomQuote('#dynamic-quote');
+      await this.getRandomQuote("#dynamic-quote");
     };
     updateQuote();
     const quoteInterval = setInterval(updateQuote, 5000);
-    this.intervals.set('#dynamic-quote', quoteInterval);
+    this.intervals.set("#dynamic-quote", quoteInterval);
 
-    console.log('Dynamic content initialized successfully');
+    console.log("Dynamic content initialized successfully");
   }
 
   /**
@@ -220,17 +220,34 @@ class DynamicContentLoader {
   }
 }
 
+/**
+ * Initialize version tooltip
+ */
+function initVersionTooltip() {
+  const navbarBrand = document.querySelector(".navbar-brand[data-version]");
+  if (navbarBrand) {
+    const version = navbarBrand.getAttribute("data-version");
+    const tooltip = navbarBrand.querySelector(".version-tooltip");
+    if (tooltip && version) {
+      tooltip.textContent = `Version ${version}`;
+    }
+  }
+}
+
 // Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
     const loader = new DynamicContentLoader();
     loader.init();
 
     // Initialize back to top button
     new BackToTopButton();
 
+    // Initialize version tooltip
+    initVersionTooltip();
+
     // Clean up on page unload
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener("beforeunload", () => {
       loader.cleanup();
     });
   });
@@ -241,8 +258,11 @@ if (document.readyState === 'loading') {
   // Initialize back to top button
   new BackToTopButton();
 
+  // Initialize version tooltip
+  initVersionTooltip();
+
   // Clean up on page unload
-  window.addEventListener('beforeunload', () => {
+  window.addEventListener("beforeunload", () => {
     loader.cleanup();
   });
 }
