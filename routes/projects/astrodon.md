@@ -47,6 +47,85 @@ await serve({
 });
 ```
 
+## Docker Deployment
+
+This blog uses a minimal Dockerfile setup for hosting through Docker. The Dockerfile uses a multi-stage build:
+
+1. **Build stage**: Uses Deno to build the static site from markdown files
+2. **Runtime stage**: Uses nginx to serve the built static files
+
+The Docker image of this blog is available as `nergy101/blog:latest` on Docker Hub.
+
+The **Dockerfile** is as follows:
+
+```dockerfile
+# syntax=docker/dockerfile:1
+
+# ---- Build stage ----
+FROM denoland/deno:alpine AS builder
+WORKDIR /app
+
+# Copy config first to maximize cache hits
+COPY deno.json deno.lock* ./
+
+# Copy scripts and sources
+COPY build.ts serve.ts ./
+COPY routes ./routes
+COPY assets ./assets
+COPY components ./components
+
+# Prefetch dependencies and build static site
+RUN deno cache build.ts serve.ts && \
+    deno run --allow-read --allow-write --allow-run build.ts
+
+# ---- Runtime stage ----
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+
+# Remove default nginx static assets
+RUN rm -rf ./*
+
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built static site
+COPY --from=builder /app/dist ./
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+And the **nginx.conf** is as follows:
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Enable gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
+
+    # Handle clean URLs - try exact path, then with .html, then as directory
+    location / {
+        try_files $uri $uri.html $uri/ =404;
+    }
+
+    # Cache static assets
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|webp|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+```
+
+This allows for clean URLs and caching of static assets.
+E.g. [/projects/astrodon.html](https://blog.nergy.space/projects/astrodon.html) will be served under [/projects/astrodon](https://blog.nergy.space/projects/astrodon) as well.
+
 ## Features
 
 - **Markdown Processing**: Advanced markdown parsing with custom extensions
@@ -63,7 +142,7 @@ await serve({
 
 ## Key Benefits
 
-- **Zero Dependencies**: No npm packages required
-- **Fast Development**: Hot reloading and instant builds
+- **Fast Development**: See the watch.ts script for hot reloading and instant rebuilds
 - **Flexible**: Custom extensions and dynamic content
 - **Optimized**: Automatic image optimization and caching
+- **Simple Deployment**: Docker deployment with nginx as example
