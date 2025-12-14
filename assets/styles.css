@@ -2529,6 +2529,11 @@ pre[class*="language-"] {
   background-color: transparent;
 }
 
+.tech-icon-sm {
+  width: 24px;
+  height: 24px;
+}
+
 img.tech-icon {
   box-shadow: none;
   border-radius: 0;
@@ -2540,4 +2545,78 @@ img.tech-icon {
 
 .bg-white {
   background-color: white;
+}
+
+/* Tech Stack Section */
+.tech-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md);
+  margin: var(--lg) 0;
+  padding: var(--lg);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sm);
+  padding: var(--sm);
+  border-radius: var(--radius);
+  transition: background-color var(--transition-fast);
+}
+
+.tech-item:hover {
+  background: var(--bg-tertiary);
+}
+
+.tech-item .tech-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 0;
+  flex-shrink: 0;
+}
+
+.tech-item strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Badges Section */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm);
+  margin: var(--lg) 0;
+  align-items: center;
+}
+
+.badges a {
+  display: inline-block;
+  transition: transform var(--transition-fast);
+}
+
+.badges a:hover {
+  transform: translateY(-2px);
+}
+
+.badges img {
+  height: 20px;
+  max-width: none;
+  max-height: 20px;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .tech-stack {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .tech-item:hover {
+  background: var(--bg-tertiary);
 }

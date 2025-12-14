@@ -2,29 +2,29 @@
 title: Astrodon
 date: 2025-09-01
 author: Christian / Nergy101
-tags: [deno, static-site, markdown]
+tags: [deno, static-site, markdown, ssg, ssr]
 ---
 
-# 🌌 Astrodon
-
-A fast, modern static site generator built with Deno. Features dynamic content generation and optimized build performance.
+# 🌌 Astrodon - fast, modern static site generator built with Deno.
 
 **By the way, this blog uses Astrodon as well!**
 
 ## Source Code
 
-Available on [GitHub](https://github.com/Nergy101/astrodon)
+Available on [GitHub](https://github.com/Nergy101/astrodon) 
 
 Published on [JSR](https://jsr.io/@nergy101/astrodon)
+- **JSR Score**: 100%
+- **Install**: `deno add jsr:@nergy101/astrodon`
+- **Works with**: Deno, Bun
+- **Latest version**: 0.2.5
 
 ## Basic Usage
 
 Below is how this blog uses Astrodon for building and serving the site.
 
-### build.ts
-
-```ts
-#!/usr/bin/env -S deno run --allow-read --allow-write --allow-run
+```ts 
+// build.ts
 import { build } from "astrodon";
 
 await build({
@@ -35,10 +35,8 @@ await build({
 });
 ```
 
-### serve.ts
-
 ```ts
-#!/usr/bin/env -S deno run --allow-read --allow-net --allow-run
+// serve.ts
 import { serve } from "astrodon";
 
 await serve({
@@ -124,7 +122,7 @@ server {
 ```
 
 This allows for clean URLs and caching of static assets.
-E.g. [/projects/astrodon.html](https://blog.nergy.space/projects/astrodon.html) will be served under [/projects/astrodon](https://blog.nergy.space/projects/astrodon) as well.
+E.g. `/projects/astrodon.html` will be served under `/projects/astrodon` as well.
 
 ## Features
 
@@ -146,3 +144,97 @@ E.g. [/projects/astrodon.html](https://blog.nergy.space/projects/astrodon.html) 
 - **Flexible**: Custom extensions and dynamic content
 - **Optimized**: Automatic image optimization and caching
 - **Simple Deployment**: Docker deployment with nginx as example
+
+## Markdown Showcase
+
+Astrodon supports comprehensive markdown features. Here's a showcase of what's possible:
+
+### Text Formatting
+
+Let's start with **bold text** and _italic text_. We can also use **_bold italic_** for emphasis.
+
+~~Strikethrough text~~ shows deleted content, while `inline code` highlights technical terms.
+
+### Lists
+
+Here's an unordered list:
+
+- First item
+- Second item with **bold text**
+- Third item with _italic text_
+- Fourth item with `code`
+
+And an ordered list:
+
+1. First numbered item
+2. Second numbered item
+3. Third numbered item
+   1. Nested item
+   2. Another nested item
+
+### Code Blocks
+
+```typescript
+import { serve } from "jsr:@std/http/server";
+
+const handler = async (req: Request): Promise<Response> => {
+  const currentTime = new Date().toISOString();
+  return new Response(`Current time: ${currentTime}`, {
+    headers: { "content-type": "text/plain" },
+  });
+};
+
+await serve(handler, { port: 8000 });
+```
+
+### Tables
+
+| Feature            | Deno          | JavaScript    |
+| ------------------ | ------------- | ------------- |
+| **Type Safety**    | ✅ TypeScript | ✅ TypeScript |
+| **Performance**    | ⚡ Fast       | 🐌 Slower     |
+| **Ecosystem**      | 📦 Modern     | 📦 Huge       |
+| **Learning Curve** | 📈 Moderate   | 📈 Moderate   |
+
+### Blockquotes
+
+> This is a simple blockquote.
+
+> This is a blockquote with **bold text** and `inline code`.
+
+### Task Lists
+
+- [x] Set up Deno project
+- [x] Create basic web server
+- [x] Add markdown support
+- [ ] Implement WebSocket connections
+- [ ] Add database integration
+
+### Definition Lists
+
+Term 1
+: Definition 1 with **bold text** and `code`.
+
+Term 2
+: Definition 2 with _italic text_.
+
+### Abbreviations
+
+\_[HTML]: HyperText Markup Language
+\_[CSS]: Cascading Style Sheets
+\_[API]: Application Programming Interface
+
+The HTML and CSS are used to style this page, while the API provides dynamic content.
+
+### Footnotes
+
+- **Fast startup times** - Deno starts up quickly[^1]
+- **Type safety** - TypeScript provides excellent developer experience
+- **Modern tooling** - Built-in formatter, linter, and test runner
+- **Build-time caching** - Static content for optimal performance
+
+[^1]: Deno's startup time is typically under 50ms, making it ideal for CLI tools and microservices.
+
+---
+
+_This page demonstrates all major markdown features including headings, text formatting, lists, code blocks, tables, links, images, blockquotes, task lists, and footnotes!_

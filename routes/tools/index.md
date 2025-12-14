@@ -5,7 +5,7 @@ author: 'Nergy'
 tags: [tools, utilities, self-hosted, docker, monitoring, analytics]
 ---
 
-# Tools & Utilities
+# Tools & Utilities 🛠️
 
 A collection of useful tools and utilities I use for managing my infrastructure and services. All of these are self-hosted solutions that give you complete control over your data and services.
 

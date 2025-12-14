@@ -33,9 +33,9 @@ I've been exploring some interesting topics lately:
 - Learning new frameworks and tools
 - Documenting my journey as a developer
 
-## 🚀 Featured Demo
+## 🚀 Blog Built with Astrodon
 
-Check out the **[Astrodon Demo](/astrodon)** to see how this site combines static build-time caching with dynamic content generation for optimal performance!
+Check out the **[Astrodon Blog](/astrodon)** to see how this site is built with Astrodon.
 
 ## Let's Connect
 
