@@ -1,5 +1,5 @@
 {
-  "version": "2025.12.05",
+  "version": "2026.01.28",
   "tasks": {
     "build": "deno run --allow-read --allow-write --allow-run build.ts",
     "serve": "deno run --allow-read --allow-net --allow-run serve.ts",

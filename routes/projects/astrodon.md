@@ -235,6 +235,4 @@ The HTML and CSS are used to style this page, while the API provides dynamic con
 
 [^1]: Deno's startup time is typically under 50ms, making it ideal for CLI tools and microservices.
 
----
-
-_This page demonstrates all major markdown features including headings, text formatting, lists, code blocks, tables, links, images, blockquotes, task lists, and footnotes!_
+---_This page demonstrates all major markdown features including headings, text formatting, lists, code blocks, tables, links, images, blockquotes, task lists, and footnotes!_
