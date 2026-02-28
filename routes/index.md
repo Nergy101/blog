@@ -71,4 +71,4 @@ _Thanks for stopping by! I hope you find something here that sparks your curiosi
 
 **Happy exploring! 🚀**
 
-[📝 All Blog Posts](/blogs) | [👾 RetroRanker](https://retroranker.site) | [👨🏻‍💻 Portfolio](https://portfolio.nergy.space) | [🚀 Blog GitHub](https://github.com/Nergy101/astrodon)
+[📝 All Blog Posts](/blogs) | [👾 RetroRanker](https://retroranker.site) | [👨🏻‍💻 Portfolio](https://portfolio.nergy.space) | [🚀 Blog GitHub](https://github.com/Nergy101/astrodon) | [🌐 RSS Feed](/rss.xml)
