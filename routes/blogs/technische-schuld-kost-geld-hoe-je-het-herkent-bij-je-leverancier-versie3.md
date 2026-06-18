@@ -1,3 +1,10 @@
+---
+title: Technische schuld kost geld
+date: 2026-06-18
+author: Christian / Nergy101
+tags: [Technische schuld, Software teams, Consultancy]
+---
+
 # Technische schuld kost geld: hoe je het herkent bij je software team
 
 Wanneer heb jij voor het laatst een nieuwe functionaliteit opgeleverd gekregen — zonder dat er eerst drie andere dingen moesten worden gerepareerd? Als je even moet nadenken, is dat antwoord al veelzeggend. Technische schuld is stil, sluipend en duur. En het ergste eraan is dat je er zo aan went dat je het niet meer ziet. In dit artikel leer je waar je op moet letten — ook als je zelf geen ontwikkelaar bent.
@@ -107,3 +114,7 @@ Technische schuld is geen technisch probleem. Het is een bedrijfsprobleem dat zi
 ## Aan de slag
 
 Sta je voor dezelfde uitdaging? Bij Cloud Republic horen graag hoe het bij jou speelt. Neem contact op en laten we het gesprek starten.
+
+---
+
+_Laatst bijgewerkt: 2026-06-18_
