@@ -2,21 +2,48 @@
 title: Muorg
 date: 2026-04-09
 author: Christian / Nergy101
-tags: [tauri, vue, rust, typescript, desktop-app, music]
+tags: [tauri, vue, rust, kotlin, android, typescript, desktop-app, music]
 ---
 
 # 🎵 Muorg - The Music Organizer from Hell
 
-A cross-platform desktop app for organizing MP3 and FLAC music libraries. Dense, keyboard-friendly, library-style UI - not a minimal player, but a serious tool for keeping your collection clean and consistent.
+A cross-platform app for organizing MP3 and FLAC music libraries, available on desktop, Android, and the web. A dense, keyboard-friendly, library-style UI - not a minimal player, but a serious tool for keeping your collection clean and consistent across every device.
 
 > *Pronounced "Mu-Ork" - think of a Musical Ork who organizes your music.*
 
 <div style="display:flex; align-items:center; gap:1.25rem; margin-top:1rem;">
   <img src="/assets/muorg/icon.svg" alt="Muorg icon" width="56">
   <div>
-    <div><strong>Platforms:</strong> macOS · Windows · Linux</div>
+    <div><strong>Platforms:</strong> Desktop (macOS · Windows · Linux) · Android · Web · self-hosted server</div>
     <div><strong>Source Code:</strong> <a href="https://github.com/Nergy101/Muorg">github.com/Nergy101/Muorg</a></div>
     <div><strong>Releases:</strong> <a href="https://github.com/Nergy101/Muorg/releases">github.com/Nergy101/Muorg/releases</a></div>
+  </div>
+</div>
+
+## One product, four moving parts
+
+Muorg is a single product made of a few components that share the same music library and metadata model. Run the desktop app on its own, or add the server to sync your library across every device.
+
+<div class="feature-grid">
+  <div class="feature-card">
+    <h3>🖥️ Desktop app</h3>
+    <p><strong>macOS · Windows · Linux</strong> — Tauri 2 + Vue 3 + Rust</p>
+    <p>The flagship app. It bundles <strong>muorg-server</strong> as a sidecar, so it works fully offline in <strong>Local</strong> mode, or points at a remote server in <strong>Online</strong> mode.</p>
+  </div>
+  <div class="feature-card">
+    <h3>🛰️ Server <span style="font-weight:normal">(API / backend)</span></h3>
+    <p><strong>Rust + Axum REST API</strong></p>
+    <p>The headless backend. Indexes your library into SQLite and exposes tracks, search, playlists, ratings, metadata editing, and audio/Chromecast streaming over HTTP. Self-host it with Docker on a NAS or home server; every other client connects to it.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📱 Android app</h3>
+    <p><strong>Kotlin + Jetpack Compose</strong></p>
+    <p>A native mobile client with Media3/ExoPlayer playback, Retrofit for the API, Room for offline caching, and Chromecast support. Connects to muorg-server to browse, search, and play your library on the go.</p>
+  </div>
+  <div class="feature-card">
+    <h3>🌐 Web client</h3>
+    <p><strong>Vue 3 + Vite PWA</strong></p>
+    <p>An installable browser UI served via nginx. Talks to the same muorg-server API, giving you full library access from any device without installing a native app.</p>
   </div>
 </div>
 
