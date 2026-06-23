@@ -1,6 +1,6 @@
 ---
 title: Technische schuld kost geld
-date: 2026-06-18
+date: 2026-06-23
 author: Christian / Nergy101
 tags: [Technische schuld, Software teams, Consultancy]
 ---
@@ -13,7 +13,7 @@ Wanneer heb jij voor het laatst een nieuwe functionaliteit opgeleverd gekregen, 
 
 Veel softwareproducten hebben een geschiedenis. Ze zijn ooit gebouwd door een toegewijd team, gegroeid met de organisatie, en uitgebreid naarmate de business dat vroeg. Op papier draaien ze prima. Maar onder de oppervlakte vertelt de code vaak een ander verhaal.
 
-Dit is de wereld waar Cloud Republic regelmatig instapt.
+Dit is de wereld waar een consultant regelmatig instapt.
 
 De organisaties die we tegenkomen hebben doorgaans een langlopend softwareproduct, regelmatig meer dan tien jaar oud, dat wordt beheerd door een intern of extern ontwikkelteam. Dat team heeft het product door de jaren heen laten groeien, kent het door en door, en is er volledig op ingesteld. **Op het eerste gezicht lijkt dat een kracht**. En dat was het ook, ooit...
 
@@ -26,7 +26,7 @@ Dat zinnetje is de aanleiding voor alles wat volgt.
 
 Want wat als die realiteit helemaal niet zo vast staat als iedereen denkt? Wat als de vertraging geen eigenschap is van het product, maar een symptoom van iets wat te veranderen valt? 
 
-Precies die vraag brengt Cloud Republic in beeld.
+Precies die vraag brengt een consultant in beeld.
 
 ---
 
@@ -118,10 +118,6 @@ Technische schuld is geen technisch probleem. Het is een bedrijfsprobleem dat zi
 
 ---
 
-## Aan de slag
+## Neem contact op
 
-Sta je voor dezelfde uitdaging? Bij Cloud Republic horen graag hoe het bij jou speelt. Neem contact op en laten we het gesprek starten.
-
----
-
-_Laatst bijgewerkt: 2026-06-23_
+Sta je voor dezelfde uitdaging? Deze consultant hoort graag hoe het bij jou speelt. Neem contact op en laten we het gesprek starten.
