@@ -16,7 +16,7 @@ A cross-platform app for organizing MP3 and FLAC music libraries, available on d
   <div>
     <div><strong>Platforms:</strong> Desktop (macOS · Windows · Linux) · Android · Web · self-hosted server</div>
     <div><strong>Live Site:</strong> <a href="https://muorg.nergy.space">muorg.nergy.space</a></div>
-    <div><strong>Documentation:</strong> <a href="https://docs.muorg.nergy.space">docs.muorg.nergy.space</a></div>
+    <div><strong>Docs Site:</strong> <a href="https://docs.muorg.nergy.space">docs.muorg.nergy.space</a></div>
     <div><strong>Source Code:</strong> <a href="https://github.com/Nergy101/Muorg">github.com/Nergy101/Muorg</a></div>
     <div><strong>Releases:</strong> <a href="https://github.com/Nergy101/Muorg/releases">github.com/Nergy101/Muorg/releases</a></div>
   </div>
