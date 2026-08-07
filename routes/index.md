@@ -11,11 +11,11 @@ Hello there! I'm **Christian** (also known as **Nergy101** online), and this is 
 
 For some of my other works, see:
 
-- [👾 RetroRanker - Gaming handhelds ranking and comparison](https://retroranker.site)
-- [🎭 Tovedem - Theater Management System](https://tovedem.nergy.space)
-- [👨🏻‍💻 Portfolio - My personal portfolio](https://portfolio.nergy.space)
-- [💪 FitnessTracker - Track workouts, runs, boxing & health on any device](https://fit.nergy.space)
-- [🎵 Muorg - Cross-platform music library organizer](https://muorg.nergy.space)
+- [👾 RetroRanker - Gaming handhelds ranking and comparison](/projects/retro-ranker)
+- [🎭 Tovedem - Theater Management System](/projects/tovedem)
+- [👨🏻‍💻 Portfolio - My personal portfolio](/projects/portfolio)
+- [💪 FitnessTracker - Track workouts, runs, boxing & health on any device](/projects/fitness-tracker)
+- [🎵 Muorg - Cross-platform music library organizer](/projects/muorg)
 
 ## What You'll Find Here
 
@@ -73,4 +73,4 @@ _Thanks for stopping by! I hope you find something here that sparks your curiosi
 
 **Happy exploring! 🚀**
 
-[📝 All Blog Posts](/blogs) | [👾 RetroRanker](https://retroranker.site) | [👨🏻‍💻 Portfolio](https://portfolio.nergy.space) | [🚀 Blog GitHub](https://github.com/Nergy101/astrodon) | [🌐 RSS Feed](/rss.xml)
+[📝 All Blog Posts](/blogs) | [👾 RetroRanker](/projects/retro-ranker) | [👨🏻‍💻 Portfolio](/projects/portfolio) | [🚀 Blog GitHub](https://github.com/Nergy101/astrodon) | [🌐 RSS Feed](/rss.xml)
