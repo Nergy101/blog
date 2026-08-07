@@ -16,6 +16,24 @@ A modern web application for ranking and comparing retro gaming devices. Built w
 - **Modern UI**: Responsive design with dark/light theme support
 - **Fast Performance**: Built with Deno Fresh for optimal loading times
 
+## Screenshots
+
+Homepage with hero and popular searches:
+
+![Retro Ranker homepage](/assets/retro-ranker/home.jpg)
+
+Device catalog with filters:
+
+![Retro Ranker device catalog](/assets/retro-ranker/catalog.jpg)
+
+Charts & analytics:
+
+![Retro Ranker charts](/assets/retro-ranker/charts.jpg)
+
+Device comparison:
+
+![Retro Ranker compare](/assets/retro-ranker/compare.jpg)
+
 ## Tech Stack
 
 <div class="tech-stack">
