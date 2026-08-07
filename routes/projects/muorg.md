@@ -97,6 +97,14 @@ Key map (Ctrl+K):
 
 ![Muorg key map](/assets/muorg/keymap.png)
 
+**Web client (PWA)** — installable browser UI on mobile:
+
+![Muorg web client library](/assets/muorg/web-library.jpg)
+
+Album detail with track list and playback:
+
+![Muorg web client album](/assets/muorg/web-album.jpg)
+
 ## Tech Stack
 
 <div class="tech-stack">

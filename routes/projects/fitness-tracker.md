@@ -67,17 +67,29 @@ FitnessTracker is for **anyone who wants to take their fitness seriously** witho
 
 ## Screenshots
 
-Workout runner with exercise image, progress ring, and timer:
+Workout tab with quick-log cards and templates:
 
-![FitnessTracker workout runner](/assets/fitness-tracker/screenshot-workout.png)
+![FitnessTracker workout tab](/assets/fitness-tracker/workout.jpg)
 
-Stats dashboard with heatmap and charts:
+Full-screen workout runner with exercise image, progress ring, and timer:
 
-![FitnessTracker stats](/assets/fitness-tracker/screenshot-stats.png)
+![FitnessTracker workout runner](/assets/fitness-tracker/runner.jpg)
 
-Health dashboard with weight graph and wellness trends:
+Exercise library with search and category filters:
 
-![FitnessTracker health](/assets/fitness-tracker/screenshot-health.png)
+![FitnessTracker exercises](/assets/fitness-tracker/exercises.jpg)
+
+History with filters, activity chart, and session cards:
+
+![FitnessTracker history](/assets/fitness-tracker/history.png)
+
+Health dashboard with streaks, weight logging, and personal records:
+
+![FitnessTracker health](/assets/fitness-tracker/health.png)
+
+Stats dashboard with training mix and daily charts:
+
+![FitnessTracker stats](/assets/fitness-tracker/stats.png)
 
 ## Tech Stack
 
