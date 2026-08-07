@@ -7,7 +7,7 @@ tags: [tauri, vue, rust, kotlin, android, typescript, desktop-app, music]
 
 # 🎵 Muorg - The Music Organizer from Hell
 
-A cross-platform app for organizing MP3 and FLAC music libraries, available on desktop, Android, and the web. A dense, keyboard-friendly, library-style UI - not a minimal player, but a serious tool for keeping your collection clean and consistent across every device.
+A cross-platform app for organizing MP3 and FLAC music libraries, available on desktop, Android, and the web — and live at [muorg.nergy.space](https://muorg.nergy.space). A dense, keyboard-friendly, library-style UI - not a minimal player, but a serious tool for keeping your collection clean and consistent across every device.
 
 > *Pronounced "Mu-Ork" - think of a Musical Ork who organizes your music.*
 
@@ -15,6 +15,8 @@ A cross-platform app for organizing MP3 and FLAC music libraries, available on d
   <img src="/assets/muorg/icon.svg" alt="Muorg icon" width="56">
   <div>
     <div><strong>Platforms:</strong> Desktop (macOS · Windows · Linux) · Android · Web · self-hosted server</div>
+    <div><strong>Live Site:</strong> <a href="https://muorg.nergy.space">muorg.nergy.space</a></div>
+    <div><strong>Documentation:</strong> <a href="https://docs.muorg.nergy.space">docs.muorg.nergy.space</a></div>
     <div><strong>Source Code:</strong> <a href="https://github.com/Nergy101/Muorg">github.com/Nergy101/Muorg</a></div>
     <div><strong>Releases:</strong> <a href="https://github.com/Nergy101/Muorg/releases">github.com/Nergy101/Muorg/releases</a></div>
   </div>
@@ -33,7 +35,7 @@ Muorg is a single product made of a few components that share the same music lib
   <div class="feature-card">
     <h3>🛰️ Server <span style="font-weight:normal">(API / backend)</span></h3>
     <p><strong>Rust + Axum REST API</strong></p>
-    <p>The headless backend. Indexes your library into SQLite and exposes tracks, search, playlists, ratings, metadata editing, and audio/Chromecast streaming over HTTP. Self-host it with Docker on a NAS or home server; every other client connects to it.</p>
+    <p>The headless backend. Indexes your library into SQLite and exposes tracks, search, playlists, ratings, metadata editing, and audio/Chromecast streaming over HTTP. Self-host it with Docker on a NAS or home server — music can live on local disk or in any S3-compatible bucket (Hetzner Object Storage, Cloudflare R2, Backblaze B2, Wasabi, MinIO, AWS S3), or both at once. Every other client connects to it.</p>
   </div>
   <div class="feature-card">
     <h3>📱 Android app</h3>
@@ -46,6 +48,15 @@ Muorg is a single product made of a few components that share the same music lib
     <p>An installable browser UI served via nginx. Talks to the same muorg-server API, giving you full library access from any device without installing a native app.</p>
   </div>
 </div>
+
+## Self-hosting
+
+Muorg is built to be self-hosted easily. The server and web client ship as ready-to-run Docker images — one `docker compose up` starts both:
+
+- **muorg-server** → `http://<your-host>:7700`, **muorg-web** → `http://<your-host>:7800`
+- Point it at local music folders, or index a library straight out of an **S3-compatible bucket** — Hetzner Object Storage, Cloudflare R2, Backblaze B2, Wasabi, MinIO, or AWS S3. Cloud tracks behave exactly like local ones (search, seeking, FLAC transcoding, cover art, Chromecast, metadata editing, backups), and local folders + buckets can coexist in one library
+- Library metadata lives in a persistent SQLite database; audio streams over HTTP with optional transcoding
+- The live instance at [muorg.nergy.space](https://muorg.nergy.space) runs exactly this setup
 
 ## Features
 
@@ -129,6 +140,12 @@ Key map (Ctrl+K):
     <img src="https://img.shields.io/github/v/release/Nergy101/Muorg" alt="Latest Release">
   </a>
 </div>
+
+## Website
+
+Live instance at [muorg.nergy.space](https://muorg.nergy.space) — the web client connected to a self-hosted muorg-server.
+
+Full documentation (desktop, server, web & Android clients) at [docs.muorg.nergy.space](https://docs.muorg.nergy.space).
 
 ## Source Code
 

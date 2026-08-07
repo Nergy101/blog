@@ -1,13 +1,14 @@
 ---
 title: FitnessTracker
 date: 2025-07-24
+lastUpdated: 2026-08-07
 author: Christian / Nergy101
 tags: [react, typescript, python, fastapi, sqlite, tailwindcss, docker, pwa, fitness, health]
 ---
 
 # 💪 FitnessTracker — Your Complete Fitness Companion
 
-A privacy-first Progressive Web App for tracking workouts, runs, body metrics, and daily wellness — all stored on your own server. No accounts, no cloud, no third-party data sharing.
+A privacy-first Progressive Web App for tracking workouts, runs, walks, boxing, body metrics, and daily wellness — all stored on your own server. No accounts, no cloud, no third-party data sharing.
 
 > *Install it on any device. It works offline, syncs when you're back, and looks great in light or dark mode.*
 
@@ -24,8 +25,9 @@ A privacy-first Progressive Web App for tracking workouts, runs, body metrics, a
 
 FitnessTracker is for **anyone who wants to take their fitness seriously** without handing their data to a third-party service. No subscription fees, no ads, no accounts — just you, your browser, and a lightweight server you control.
 
-- **Home gym users** — track bodyweight, dumbbell, and flexibility workouts with 76 pre-loaded exercises
-- **Runners & walkers** — log GPS-tracked runs/walks with pace, duration, and distance stats
+- **Home gym users** — track bodyweight, dumbbell, and flexibility workouts with 195 pre-loaded exercises (37 cardio, 116 strength, 42 flexibility)
+- **Runners & walkers** — log runs and walks with distance, duration, and pace, with stats over time
+- **Boxers** — log sessions with rounds, kcal/min, and notes; monthly breakdowns and PRs
 - **Weight watchers** — chart your weight journey with goal tracking and BMI calculation
 - **Wellness-minded people** — daily mood, energy, sleep, and stress check-ins with 8-week trends
 - **Privacy-conscious fitness enthusiasts** — everything stays on your server; export/backup anytime
@@ -35,27 +37,31 @@ FitnessTracker is for **anyone who wants to take their fitness seriously** witho
 <div class="feature-grid">
   <div class="feature-card">
     <h3>🏋️ Workouts</h3>
-    <p><strong>76 exercises</strong> across cardio, calisthenics, dumbbell, and flexibility. Circuit templates with configurable rounds, per-exercise durations, warmup/cooldown phases, and a full-screen workout runner with audio cues and text-to-speech.</p>
+    <p><strong>195 exercises</strong> across cardio, strength, and flexibility — 5 circuit templates (Basic, Calisthenics, Beginner Calisthenics, Cardio, Dumbbells), Tabata mode with fixed 20s/10s intervals, configurable rounds, warmup/cooldown phases, and a full-screen workout runner with progress ring, audio cues, and text-to-speech.</p>
   </div>
   <div class="feature-card">
     <h3>🏃 Run & Walk Tracking</h3>
-    <p>Log GPS-tracked runs and walks with distance, duration, pace, and notes. Stats dashboard shows total distance, best pace, and average pace over time.</p>
+    <p>Log runs and walks with distance, duration, pace, and randomized note prompts. Stats show total distance, best pace, and average pace over time.</p>
+  </div>
+  <div class="feature-card">
+    <h3>🥊 Boxing Tracking</h3>
+    <p>Log boxing sessions with duration, rounds, kcal/min, and notes. Track total sessions, hours, kcal, personal records, and monthly breakdowns with trend charts.</p>
   </div>
   <div class="feature-card">
     <h3>📊 History & Stats</h3>
-    <p>Session history with date range filters, weekday bar chart, and a GitHub-style contribution heatmap. JSON import/export of all your sessions. Streak tracking with total sessions, hours, and calories burned.</p>
+    <p>Session history with date range filters, activity-colored cards, weekday bar chart, and a GitHub-style contribution heatmap. JSON import/export of all your sessions. Streak tracking with total sessions, hours, and calories burned.</p>
   </div>
   <div class="feature-card">
     <h3>⚖️ Health & Wellness</h3>
-    <p>Weight tracking with goal progress bars and BMI calculator. Body measurements (waist, hips, chest, arms, thighs, neck) with before/after deltas. Daily wellness check-ins — mood, energy, stress, sleep hours — with 8-week trend charts. Health score (0–100) combining BMI, workout consistency, streak, and measurements.</p>
+    <p>Weight tracking with goal progress bars and BMI calculator. Personal records across weight, measurements, performance, runs, walks, and boxing. Body measurements (waist, hips, chest, arms, thighs, neck) with before/after deltas. Daily wellness check-ins — mood, energy, stress, sleep hours — with 8-week trend charts. Health score (0–100) combining BMI, workout consistency, streak, and measurements.</p>
   </div>
   <div class="feature-card">
     <h3>🍎 Apple Health Import</h3>
-    <p>Import your Apple Health export ZIP — workouts and health metrics are automatically parsed and added to your history. No manual data entry needed if you're coming from an Apple Watch.</p>
+    <p>Import your Apple Health export ZIP — workouts and health metrics are automatically parsed and added to your history, with a Workout Intensity scatter chart. No manual data entry needed if you're coming from an Apple Watch.</p>
   </div>
   <div class="feature-card">
     <h3>📱 PWA & Offline</h3>
-    <p>Installable on iOS, Android, and desktop. Works offline with service worker precaching. Push notification support via Web Push API. Light/dark theme, audio mute, and selectable date format (D/M or M/D).</p>
+    <p>Installable on iOS, Android, and desktop. Works offline with service worker precaching. Push notification support via Web Push API. Swipe navigation, light/dark theme, audio mute, and selectable date format (D/M or M/D).</p>
   </div>
 </div>
 
@@ -77,7 +83,7 @@ Health dashboard with weight graph and wellness trends:
 
 <div class="tech-stack">
   <div class="tech-item">
-    <img src="/assets/techs/typescript.svg" alt="TypeScript" class="tech-icon">
+    <img src="/assets/techs/react.svg" alt="React" class="tech-icon">
     <strong>React 19 + TypeScript</strong> — Modern component-based UI with full type safety
   </div>
   <div class="tech-item">
@@ -89,7 +95,7 @@ Health dashboard with weight graph and wellness trends:
     <strong>Tailwind CSS v4</strong> — Utility-first styling with CSS variable-driven theme system
   </div>
   <div class="tech-item">
-    <img src="/assets/techs/python.svg" alt="Python" class="tech-icon">
+    <img src="/assets/techs/fastapi.svg" alt="FastAPI" class="tech-icon">
     <strong>FastAPI + Python</strong> — High-performance async REST API with auto-generated OpenAPI docs
   </div>
   <div class="tech-item">
@@ -102,7 +108,7 @@ Health dashboard with weight graph and wellness trends:
   </div>
   <div class="tech-item">
     <img src="/assets/techs/nodejs.svg" alt="Node.js" class="tech-icon">
-    <strong>Playwright + Vitest</strong> — End-to-end browser tests + unit tests, ~260 tests total
+    <strong>Playwright + Vitest</strong> — End-to-end browser tests + unit tests (258 backend, 122 frontend, 38 E2E)
   </div>
 </div>
 

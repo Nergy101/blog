@@ -14,7 +14,8 @@ For some of my other works, see:
 - [👾 RetroRanker - Gaming handhelds ranking and comparison](https://retroranker.site)
 - [🎭 Tovedem - Theater Management System](https://tovedem.nergy.space)
 - [👨🏻‍💻 Portfolio - My personal portfolio](https://portfolio.nergy.space)
-- [🎵 Muorg - Cross-platform music library organizer (desktop, Android, web & server)](https://github.com/Nergy101/Muorg)
+- [💪 FitnessTracker - Track workouts, runs, boxing & health on any device](https://fit.nergy.space)
+- [🎵 Muorg - Cross-platform music library organizer](https://muorg.nergy.space)
 
 ## What You'll Find Here
 
