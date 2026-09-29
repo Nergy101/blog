@@ -9,6 +9,15 @@ tags: [deno, fresh, web-app, retro-gaming]
 
 A modern web application for ranking and comparing retro gaming devices. Built with Deno Fresh for optimal performance and developer experience.
 
+<section class="github-release-feed" data-github-repo="Nergy101/retro-ranker" aria-labelledby="retro-ranker-release-title">
+  <h2 id="retro-ranker-release-title">Latest GitHub release</h2>
+  <p data-release-status>Release details may be refreshed from GitHub; cached details are used when available.</p>
+  <p><strong data-release-name>Latest release details are not available yet.</strong> <time data-release-date></time></p>
+  <p><a data-release-link href="https://github.com/Nergy101/retro-ranker/releases">Browse all Retro Ranker releases on GitHub</a></p>
+  <p class="github-release-fallback">If release details cannot be loaded, the full release history remains available on GitHub.</p>
+  <pre data-release-notes hidden></pre>
+</section>
+
 ## Features
 
 - **Device Comparison**: Side-by-side comparison of retro gaming consoles

@@ -1,0 +1,25 @@
+name: Blog content checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  content-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Check frontmatter, image alt text, and local links
+        run: deno task content:check
+      - name: Run Blog tests
+        run: deno task test
+      - name: Verify static build
+        run: deno task build

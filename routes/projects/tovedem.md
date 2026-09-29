@@ -9,6 +9,15 @@ tags: [angular, pocketbase, web-app, theater-management]
 
 A comprehensive web application for managing local theater productions, plays, and performances. Built with Angular and PocketBase for a modern, efficient theater management experience.
 
+<section class="github-release-feed" data-github-repo="Nergy101/tovedem" aria-labelledby="tovedem-release-title">
+  <h2 id="tovedem-release-title">Latest GitHub release</h2>
+  <p data-release-status>Release details may be refreshed from GitHub; cached details are used when available.</p>
+  <p><strong data-release-name>Latest release details are not available yet.</strong> <time data-release-date></time></p>
+  <p><a data-release-link href="https://github.com/Nergy101/tovedem/releases">Browse all Tovedem releases on GitHub</a></p>
+  <p class="github-release-fallback">If release details cannot be loaded, the full release history remains available on GitHub.</p>
+  <pre data-release-notes hidden></pre>
+</section>
+
 ## Features
 
 - **Play Management**: Organize and manage theater productions and plays

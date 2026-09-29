@@ -37,7 +37,7 @@ I've been exploring some interesting topics lately:
 
 ## 🚀 Blog Built with Astrodon
 
-Check out the **[Astrodon Blog](/astrodon)** to see how this site is built with Astrodon.
+Check out the **[Astrodon project page](/projects/astrodon)** to see how this site is built with Astrodon.
 
 ## Let's Connect
 
@@ -45,7 +45,7 @@ I believe in the power of community and shared knowledge. Whether you're a fello
 
 Feel free to:
 
-- Leave comments on posts that resonate with you
+- Share thoughts or questions by email or GitHub — this blog doesn't have an on-site comment system
 - Share your own experiences and insights
 - Reach out if you want to collaborate on something interesting
 

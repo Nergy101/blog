@@ -17,7 +17,16 @@ Published on [JSR](https://jsr.io/@nergy101/astrodon)
 - **JSR Score**: 100%
 - **Install**: `deno add jsr:@nergy101/astrodon`
 - **Works with**: Deno, Bun
-- **Latest version**: 0.2.5
+- **Version used by this blog**: 0.2.7
+
+<section class="github-release-feed" data-github-repo="Nergy101/astrodon" aria-labelledby="astrodon-release-title">
+  <h2 id="astrodon-release-title">Latest GitHub release</h2>
+  <p data-release-status>Release details may be refreshed from GitHub; cached details are used when available.</p>
+  <p><strong data-release-name>Latest release details are not available yet.</strong> <time data-release-date></time></p>
+  <p><a data-release-link href="https://github.com/Nergy101/astrodon/releases">Browse all Astrodon releases on GitHub</a></p>
+  <p class="github-release-fallback">If release details cannot be loaded, the full release history remains available on GitHub.</p>
+  <pre data-release-notes hidden></pre>
+</section>
 
 ## Basic Usage
 
