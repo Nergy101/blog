@@ -19,7 +19,7 @@ jobs:
           deno-version: v2.x
       - name: Check frontmatter, image alt text, and local links
         run: deno task content:check
-      - name: Run Blog tests
-        run: deno task test
       - name: Verify static build
         run: deno task build
+      - name: Run Blog tests
+        run: deno task test
