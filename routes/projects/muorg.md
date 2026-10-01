@@ -22,6 +22,15 @@ A cross-platform app for organizing MP3 and FLAC music libraries, available on d
   </div>
 </div>
 
+<section class="github-release-feed" data-github-repo="Nergy101/Muorg" aria-labelledby="muorg-release-title">
+  <h2 id="muorg-release-title">Latest GitHub release</h2>
+  <p data-release-status>Release details may be refreshed from GitHub; cached details are used when available.</p>
+  <p><strong data-release-name>Latest release details are not available yet.</strong> <time data-release-date></time></p>
+  <p><a data-release-link href="https://github.com/Nergy101/Muorg/releases">Browse all Muorg releases on GitHub</a></p>
+  <p class="github-release-fallback">If release details cannot be loaded, the full release history remains available on GitHub.</p>
+  <pre data-release-notes hidden></pre>
+</section>
+
 ## One product, four moving parts
 
 Muorg is a single product made of a few components that share the same music library and metadata model. Run the desktop app on its own, or add the server to sync your library across every device.

@@ -2620,3 +2620,122 @@ img.tech-icon {
 [data-theme="dark"] .tech-item:hover {
   background: var(--bg-tertiary);
 }
+
+/* Blog discovery, reading aids, and release notes */
+.blog-archive-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sm) var(--md);
+  margin: var(--lg) 0;
+  padding: var(--lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+}
+
+.blog-archive-controls label {
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.blog-archive-controls input,
+.blog-archive-controls select {
+  min-width: 0;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: var(--bg);
+  font: inherit;
+}
+
+#blog-result-count,
+#blog-empty-state {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+#blog-result-count {
+  color: var(--text-muted);
+}
+
+#blog-empty-state[hidden],
+[data-blog-post][hidden],
+.github-release-feed [hidden] {
+  display: none !important;
+}
+
+.post-reading-time {
+  margin: 0 0 var(--lg);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.post-toc {
+  margin: var(--lg) 0 var(--2xl);
+  padding: var(--lg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+}
+
+.post-toc h2 {
+  margin: 0 0 var(--sm);
+  font-size: 1.15rem;
+}
+
+.post-toc ol {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.post-toc-subheading {
+  margin-left: 1rem;
+  font-size: 0.95em;
+}
+
+.related-posts {
+  margin-top: var(--3xl);
+  padding-top: var(--xl);
+  border-top: 1px solid var(--border);
+}
+
+.github-release-feed {
+  margin: var(--xl) 0;
+  padding: var(--lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+}
+
+.github-release-feed h2 {
+  margin-top: 0;
+}
+
+.github-release-feed pre {
+  max-height: 30rem;
+  overflow: auto;
+  padding: var(--md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  background: var(--bg);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 0.9rem/1.6 var(--font-mono);
+}
+
+@media (max-width: 600px) {
+  .blog-archive-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #blog-result-count,
+  #blog-empty-state {
+    grid-column: 1;
+  }
+}

@@ -11,24 +11,6 @@ When I started building [Retro Ranker](https://retroranker.site) — a platform 
 
 **Note:** Some screenshots contain paths within the GitHub repo.
 
-## Table of Contents
-
-- [Building Retro Ranker with Deno Fresh: A Developer's Journey](#building-retro-ranker-with-deno-fresh-a-developers-journey)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Key Benefits of Using Deno Fresh](#key-benefits-of-using-deno-fresh)
-    - [Developer Experience](#developer-experience)
-    - [Islands Architecture](#islands-architecture)
-    - [Built-in TypeScript Support](#built-in-typescript-support)
-    - [Performance](#performance)
-  - [Common Challenges (and How I Solved Them)](#common-challenges-and-how-i-solved-them)
-    - [Third-Party Library Integration](#third-party-library-integration)
-    - [State Management](#state-management)
-    - [Deployment](#deployment)
-    - [Integrating PocketBase](#integrating-pocketbase)
-  - [Conclusion](#conclusion)
-
----
 
 ## Introduction
 

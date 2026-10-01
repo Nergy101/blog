@@ -2,6 +2,8 @@
   "version": "2026.01.28",
   "tasks": {
     "build": "deno run --allow-read --allow-write --allow-run build.ts",
+    "content:check": "deno run --allow-read scripts/check_content.ts",
+    "test": "deno test --allow-read --allow-write --allow-run tests/",
     "serve": "deno run --allow-read --allow-net --allow-run serve.ts",
     "dev": "deno task build && deno task serve",
     "watch": "deno run --allow-read --allow-write --allow-run --allow-net watch.ts",

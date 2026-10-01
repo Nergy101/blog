@@ -21,6 +21,15 @@ A privacy-first Progressive Web App for tracking workouts, runs, walks, boxing, 
   </div>
 </div>
 
+<section class="github-release-feed" data-github-repo="Nergy101/fitness-tracker" aria-labelledby="fitness-tracker-release-title">
+  <h2 id="fitness-tracker-release-title">Latest GitHub release</h2>
+  <p data-release-status>Release details may be refreshed from GitHub; cached details are used when available.</p>
+  <p><strong data-release-name>Latest release details are not available yet.</strong> <time data-release-date></time></p>
+  <p><a data-release-link href="https://github.com/Nergy101/fitness-tracker/releases">Browse all FitnessTracker releases on GitHub</a></p>
+  <p class="github-release-fallback">If release details cannot be loaded, the full release history remains available on GitHub.</p>
+  <pre data-release-notes hidden></pre>
+</section>
+
 ## Who it's for
 
 FitnessTracker is for **anyone who wants to take their fitness seriously** without handing their data to a third-party service. No subscription fees, no ads, no accounts — just you, your browser, and a lightweight server you control.
