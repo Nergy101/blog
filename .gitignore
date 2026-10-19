@@ -1,5 +1,6 @@
 # Build output (generated)
 dist/
+.blog-workshop/
 
 # Dependency directories (not used by Deno, but safe to ignore if present)
 node_modules/
@@ -39,4 +40,3 @@ coverage/
 
 # Deno (if a local DENO_DIR is used)
 .deno/
-
