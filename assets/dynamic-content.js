@@ -180,8 +180,6 @@ class DynamicContentLoader {
    * Initialize all dynamic content on the page
    */
   async init() {
-    console.log("Initializing dynamic content...");
-
     // Initialize dynamic time (one-time update)
     const dynamicTime = await this.getTime("friendly");
     this.updateElement("#dynamic-time", dynamicTime);
@@ -205,8 +203,6 @@ class DynamicContentLoader {
     updateQuote();
     const quoteInterval = setInterval(updateQuote, 5000);
     this.intervals.set("#dynamic-quote", quoteInterval);
-
-    console.log("Dynamic content initialized successfully");
   }
 
   /**
