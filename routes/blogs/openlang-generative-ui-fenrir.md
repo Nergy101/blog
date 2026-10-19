@@ -5,21 +5,19 @@ author: Christian / Nergy101
 tags: [Generative UI, MCP, OpenUI, LLM, Angular, .NET]
 ---
 
-# OpenLang Generative UI: Fenrir
+# OpenLang Generative UI - Fenrir
 
 Every question our business asks is legit; too bad we never build the dashboards they want...
 
 **_Why don't you?_**
 
-
-Because every one of them means a new screen, a new query, a sprint item, a release. So they get triaged, 
+Because every one of them means a new screen, a new query, a sprint item, a release. So they get triaged,
 and most of them quietly never get answered. Or worse, we one-off it with a SQL query and give them the raw numbers.
-The thought is hard to avoid: _if only we could have this built by an AI_. 
+The thought is hard to avoid: _if only we could have this built by an AI_.
 
 So I did it, on a real platform, with real data.
 
-
-## Lets draw the setting of this blog
+## Let's draw the setting of this blog
 
 Wolf is the system Cito uses for the Dutch national secondary-education exams. Its users are the account
 administrators and examiners at a school, and the vocabulary of the domain is the vocabulary of the exam
@@ -27,19 +25,18 @@ calendar: an exam is taken in an exam period, at a given education level; a scho
 exam groups; every group then walks through marking — first marking, second marking, consultation, approval,
 export — under deadlines set by law rather than by a product owner.
 
-In the two existing frontends: **every screen shows data of one school.** 
-Almost every repository method that returns exam groups takes a school code, an account, or one exam. 
-That is not an accident - it is what authorization, navigation and page design are all
-built on.
+In the two existing frontends: **every screen shows data of one school.**
+Almost every repository method that returns exam groups takes a school code, an account, or one exam.
+That is not an accident - it is what authorization, navigation and page design are all built on.
 
 **Fenrir** is a third frontend project in that same workspace, and it is a proof of concept in the strict sense: it
-has no build artifact, no pipeline, no deployment. You ask it a question in plain language and it builds a screen for you — KPI cards, charts, tables, filters — with real Wolf data in it.
+has no build artifact, no pipeline, no deployment. You ask it a question in plain language and it builds a screen
+for you — KPI cards, charts, tables, filters — with real Wolf data in it.
 
 It started as curiosity rather than as a roadmap item. Two things had appeared that I wanted to try against a
 real, large domain instead of the usual to-do-list demo: **the Model Context Protocol, and generative UI**. This
 post is about what came out of putting them together, and in particular about one design decision that turned
 out to carry the whole thing.
-
 
 ## The questions the product cannot ask
 
@@ -89,8 +86,8 @@ shape, with which labels and which filters. It never decides **what** those figu
 later, over a different channel, from (hopefully) deterministic code.
 
 So there are two chains, and they are deliberately not connected:
-<--ATTENTION-->
-```
+
+```text
 1. Writing the screen
    browser → POST /api/genui/chat → LlmService → provider (claude/copilot/azure/mock)
            ← OpenUI-Lang, streamed back token by token
@@ -111,7 +108,7 @@ like. A wrong answer from Fenrir is one of exactly three things:
 
 What it cannot be is a wrong number. There is no code path that would produce one.
 
-### Why the data goes over MCP <--ATTENTION-->
+### Why the data goes over MCP
 
 Here is the part that looks like over-engineering until you say the goal out loud. The tools run *inside the
 Wolf API process*. Fenrir could have called the logic layer directly, one C# method to another. Instead there is
@@ -131,7 +128,6 @@ What the hop buys:
 - **And, honestly: MCP was half the point.** This is a proof of concept *of MCP* as much as of generative UI. If
   the protocol only ever works when the client is somebody else's chat app, it has not been proven.
 
-<--ATTENTION-->
 The cost is one loopback HTTP request with no session bookkeeping (`Stateless = true`) — and one genuinely
 non-obvious problem. `/mcp` requires the same sign-in and the same linked admin account as every other surface,
 so a loopback request without an `Authorization` header is a 401: the bridge would lock itself out of the very
@@ -171,20 +167,19 @@ What that adds up to, concretely.
 Eleven classes, thirty-six tools. There is no separate schema file and no registry to keep in sync: a tool is a
 method with an attribute, and the description is written for the model to read. This one is the marking funnel:
 
-<--ATTENTION-->
 ```csharp
-[McpServerTool(Name = "correctie_trechter", UseStructuredContent = true, ReadOnly = true)]
+[McpServerTool(Name = "marking_funnel", UseStructuredContent = true, ReadOnly = true)]
 [Description("""
-    The national marking pipeline as a funnel: how many afnamegroepen and candidates sit in
-    each correctieStatus (eerste correctie → tweede correctie → overleg → fiatteren →
-    gefiatteerd → geëxporteerd) ... Render stappen as a funnel or ordered bar chart on
-    volgorde, and doorlooptijden as a table.
+    The national marking pipeline as a funnel: how many exam groups and candidates sit in
+    each markingStatus (first marking → second marking → consultation → approval →
+    approved → exported) ... Render stages as a funnel or ordered bar chart on
+    order, and leadTimes as a table.
     """)]
-public async Task<CorrectieTrechter> CorrectieTrechter(
+public async Task<MarkingFunnel> MarkingFunnel(
     [Description("Restrict to one exam period (1, 2 or 3). Omit for all periods.")]
-    int? tijdvak = null,
+    int? examPeriod = null,
     [Description("Restrict to one education level. Matched loosely. Omit for all levels.")]
-    string? niveau = null)
+    string? educationLevel = null)
 ```
 
 Note the rendering hint in the middle of the API documentation ("render the stages as a funnel or an ordered bar
@@ -197,7 +192,6 @@ account tools count accounts rather than listing them. Schools are named; people
 of the tool layer, not a rule in the prompt, which matters: it holds even when the model misbehaves, and it holds
 for the external MCP client too.
 
-<--ATTENTION-->
 Five of those tools are the national ones — the marking funnel, the deadline radar, second-marking status,
 subject participation, and a scorecard per school. All five read one national scan: a single query across every
 internal exam group, cached for sixty seconds, aggregated in memory afterwards. These are precisely the questions
@@ -205,7 +199,7 @@ from the top of this post, and they exist only because a tool does not have to b
 
 ### Four endpoints, and nothing else
 
-```
+```text
 GET  /api/genui/health         provider + MCP status
 GET  /api/genui/tools/spec     tool specs, straight from MCP tools/list
 POST /api/genui/tools/{name}   execute one Wolf tool, via McpBridge
@@ -242,11 +236,11 @@ export const LOOKS_LIKE_PROGRAM = /^[ \t]*\$?[A-Za-z_][\w$]*[ \t]*=/m;
 What survives looks like this — a real program from the mock provider's fixtures, building a national progress
 view of exams enrolled against exams submitted:
 
-```
-samenvatting = Query("examen_summary", {}, {rows: []})
-header = CardHeader("Landelijke voortgang", "Ingeschreven tegenover ingezonden, per examen")
-bar = BarChart(samenvatting.rows.examenNaam, [Series("Scholen ingeschreven", samenvatting.rows.scholenIngeschreven), Series("Scholen ingezonden", samenvatting.rows.scholenIngezonden)], "grouped")
-tbl = Table([Col("Examen", samenvatting.rows.examenNaam), Col("Scholen ingeschreven", samenvatting.rows.scholenIngeschreven, "number")])
+```text
+summary = Query("exam_summary", {}, {rows: []})
+header = CardHeader("National progress", "Enrolled versus submitted, per exam")
+bar = BarChart(summary.rows.examName, [Series("Schools enrolled", summary.rows.schoolsEnrolled), Series("Schools submitted", summary.rows.schoolsSubmitted)], "grouped")
+tbl = Table([Col("Exam", summary.rows.examName), Col("Schools enrolled", summary.rows.schoolsEnrolled, "number")])
 root = Stack([header, bar, tbl])
 ```
 
@@ -254,7 +248,6 @@ Four lines of layout and one line of data dependency. The `{rows: []}` at the en
 rendered the instant the statement parses — which is why the prompt insists it stays empty, forever, in every
 generated program. An invented example row in that position is shown to the user as real exam administration.
 
-<--ATTENTION-->
 ### The data path, per call
 
 The generated program's `Query()` calls land on a plain function map, one entry per tool name, memoized per
@@ -274,7 +267,6 @@ Writes are deliberately awkward. Anything whose name ends in "save" or "delete" 
 `Query()`, never wired to run on page load, always behind a button the user presses. It returns a success flag
 and a message, and the prompt requires showing that message and re-running the matching query afterwards.
 
-<--ATTENTION-->
 ### Containment
 
 Because this runs against national exam data, "off" has to mean off. The feature flag does not merely hide the
@@ -285,7 +277,6 @@ only, never *authorization*: an address that is not in the user table gets the s
 get in production. And if the flag is on, startup logs a warning; if `/mcp` is open, a second, differently worded
 one. Seeing either line in the logs of anything other than a development machine *is* the bug.
 
-<--ATTENTION-->
 ## A system prompt is a defect log
 
 The system prompt in `island/index.tsx` is about 38 kB, and it opens with a comment telling the next developer
@@ -309,12 +300,12 @@ over:
    the one string that means *no selection*.
 
 So the option needs a real sentinel value, and something has to turn that value back into "no filter" before the
-tool call. In the generated program that looks like this — `"alle"` is the sentinel, meaning "all":
+tool call. In the generated program that looks like this — `"all"` is the sentinel, meaning "no filter":
 
-```
-$tijdvak = "alle"
-tijdvakFilter = Select($tijdvak, [SelectItem("alle", "Alle tijdvakken"), SelectItem("1", "Tijdvak 1"), ...])
-groepen = Query("correctie_trechter", {tijdvak: $tijdvak == "alle" ? "" : $tijdvak}, {stappen: []})
+```text
+$examPeriod = "all"
+examPeriodFilter = Select($examPeriod, [SelectItem("all", "All exam periods"), SelectItem("1", "Exam period 1"), ...])
+groups = Query("marking_funnel", {examPeriod: $examPeriod == "all" ? "" : $examPeriod}, {stages: []})
 ```
 
 Two lessons, and the second is the more general one. First: generative UI inherits every quiet default of your
@@ -398,31 +389,29 @@ replacement for the screens people use every day. Those need to be stable, learn
 identical for every user on every visit — five properties a generated surface does not have. The two coexist: the
 product answers the questions you always have, and this answers the ones you did not know you had.
 
-<--ATTENTION-->
-<add a piece about saving the generated Program to re-hydrate with actual data at a later point!>
+> Add a piece about saving the generated Program to re-hydrate with actual data at a later point!
 
-<--ATTENTION--> 
-<add a piece that the MCP was totally optional - having the Program just do JSON-API rest calls would also work just fine, and if
-you already have that, is an even quicker path to using Generative UI without the MCP>
+> Add a piece that the MCP was totally optional - having the Program just do JSON-API REST calls would also work just fine, and if
+> you already have that, it is an even quicker path to using Generative UI without the MCP.
+
 ## What I would keep
 
 The interesting work turned out not to be the generation. Getting a model to emit a valid OpenLang program was an
 afternoon; everything after that was learning what a generated screen does to real users. A filter that cannot go
 back to "all" is a dead end. A fallback with a plausible row in it is fabricated exam administration. A word like
 "no" is a truthy string, and it gives the same wrong answer on every row. A model that sees its own earlier programs
-starts repeating them instead of answering the question. 
+starts repeating them instead of answering the question.
 
-The 38 kB system prompt is a defect log, one paragraph per
-bug someone actually watched happen.
+The 38 kB system prompt is a defect log, one paragraph per bug someone actually watched happen.
 
 Which leaves the one decision I would keep on any project of this kind: keep the model out of the data path. Let it
 write the program, let the protocol fetch the numbers. Every remaining mistake then becomes a layout mistake or a
 rejected argument — annoying, visible, cheap. That is a class of failure you can live with; "probably about 4,200
-candidates" is not. 
+candidates" is not.
 
-<--ATTENTION--> Also given the bonusses of very repeatable Programs (just save the output) and then
-being able to share these, keep these, and that the SLOW part of this Generative UI is the LLM coming up with the Program.
-However if you already have the program, well, it's as fast as your API is!
+> Also given the bonuses of very repeatable Programs (just save the output) and then
+> being able to share these, keep these, and that the SLOW part of this Generative UI is the LLM coming up with the Program.
+> However if you already have the program, well, it's as fast as your API is!
 
 ---
 
