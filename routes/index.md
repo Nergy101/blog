@@ -16,6 +16,8 @@ For some of my other works, see:
 - [👨🏻‍💻 Portfolio - My personal portfolio](/projects/portfolio)
 - [💪 FitnessTracker - Track workouts, runs, boxing & health on any device](/projects/fitness-tracker)
 - [🎵 Muorg - Cross-platform music library organizer](/projects/muorg)
+- [🐸 Emo Kikkers - Frog-themed party games and creative tools](/projects/emo-kikkers) — [emokikkers.nl](https://emokikkers.nl)
+- [🗓️ Sessions - Collaborative session planning](/projects/sessions) — [sessions.nergy.space](https://sessions.nergy.space)
 
 ## What You'll Find Here
 
