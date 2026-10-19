@@ -1,5 +1,5 @@
 ---
-title: "OpenLang Generative UI: Fenrir"
+title: OpenLang Generative UI - Fenrir
 date: 2026-08-13
 author: Christian / Nergy101
 tags: [Generative UI, MCP, OpenUI, LLM, Angular, .NET]
