@@ -11,13 +11,13 @@ Hello there! I'm **Christian** (also known as **Nergy101** online), and this is 
 
 For some of my other works, see:
 
-- [👾 RetroRanker - Gaming handhelds ranking and comparison](/projects/retro-ranker)
-- [🎭 Tovedem - Theater Management System](/projects/tovedem)
-- [👨🏻‍💻 Portfolio - My personal portfolio](/projects/portfolio)
-- [💪 FitnessTracker - Track workouts, runs, boxing & health on any device](/projects/fitness-tracker)
-- [🎵 Muorg - Cross-platform music library organizer](/projects/muorg)
-- [🐸 Emo Kikkers - Frog-themed party games and creative tools](/projects/emo-kikkers) — [emokikkers.nl](https://emokikkers.nl)
-- [🗓️ Sessions - Collaborative session planning](/projects/sessions) — [sessions.nergy.space](https://sessions.nergy.space)
+- <img src="/assets/project-icons/retro-ranker.png" alt="RetroRanker" class="tech-icon tech-icon-sm"> [RetroRanker - Gaming handhelds ranking and comparison](/projects/retro-ranker)
+- <img src="/assets/project-icons/tovedem.png" alt="Tovedem" class="tech-icon tech-icon-sm"> [Tovedem - Theater Management System](/projects/tovedem)
+- <img src="/assets/project-icons/portfolio.png" alt="Portfolio" class="tech-icon tech-icon-sm bg-white"> [Portfolio - My personal portfolio](/projects/portfolio)
+- <img src="/assets/project-icons/fitness-tracker.png" alt="FitnessTracker" class="tech-icon tech-icon-sm"> [FitnessTracker - Track workouts, runs, boxing & health on any device](/projects/fitness-tracker)
+- <img src="/assets/project-icons/muorg.svg" alt="Muorg" class="tech-icon tech-icon-sm"> [Muorg - Cross-platform music library organizer](/projects/muorg)
+- <img src="/assets/project-icons/emo-kikkers.svg" alt="Emo Kikkers" class="tech-icon tech-icon-sm"> [Emo Kikkers - Frog-themed party games and creative tools](/projects/emo-kikkers) — [emokikkers.nl](https://emokikkers.nl)
+- <img src="/assets/project-icons/sessions.svg" alt="Sessions" class="tech-icon tech-icon-sm"> [Sessions - Collaborative session planning](/projects/sessions) — [sessions.nergy.space](https://sessions.nergy.space)
 
 ## What You'll Find Here
 
