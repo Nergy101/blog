@@ -44,7 +44,12 @@ jobs:
       url: https://blog.nergy.space
     steps:
       - name: Get Known Hosts value
-        run: echo "KNOWN_HOSTS=$(ssh-keyscan -H ${{ secrets.SSH_HOST }})" >> $GITHUB_ENV
+        run: |
+          {
+            echo "KNOWN_HOSTS<<EOF"
+            ssh-keyscan -H ${{ secrets.SSH_HOST }} 2>/dev/null | grep -v '^#'
+            echo "EOF"
+          } >> $GITHUB_ENV
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
