@@ -17,6 +17,10 @@ const distDir = new URL("./dist", import.meta.url).pathname;
 const umamiScript =
   '<script defer src="https://umami.nergy.space/script.js" data-website-id="d3572366-bf4c-462c-8c3e-d3db77869836"></script>';
 
+// Autodiscovery links for the RSS and Atom feeds, injected into <head>
+const feedDiscoveryLinks =
+  '<link rel="alternate" type="application/rss+xml" title="Nergy101 Blog RSS" href="/rss.xml">\n<link rel="alternate" type="application/atom+xml" title="Nergy101 Blog Atom" href="/feed.xml">';
+
 // Recursively find all HTML files in dist directory
 async function findHtmlFiles(dir: string): Promise<string[]> {
   const htmlFiles: string[] = [];
@@ -43,7 +47,15 @@ for (const htmlFile of htmlFiles) {
   }
 
   // Insert the script before the closing </body> tag
-  const updatedContent = content.replace("</body>", `${umamiScript}\n</body>`);
+  let updatedContent = content.replace("</body>", `${umamiScript}\n</body>`);
+
+  // Insert feed autodiscovery links before the closing </head> tag
+  if (!content.includes('rel="alternate"')) {
+    updatedContent = updatedContent.replace(
+      "</head>",
+      `${feedDiscoveryLinks}\n</head>`,
+    );
+  }
 
   await Deno.writeTextFile(htmlFile, updatedContent);
 }
@@ -135,6 +147,11 @@ function toRfc822Date(dateStr: string): string {
   return isNaN(d.getTime()) ? new Date().toUTCString() : d.toUTCString();
 }
 
+function toIsoDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+}
+
 const posts: BlogPost[] = [];
 for await (const entry of Deno.readDir(blogsDir)) {
   if (
@@ -187,6 +204,37 @@ ${rssItems}
 
 await Deno.writeTextFile(`${distDir}/rss.xml`, rss);
 console.log("Generated rss.xml");
+
+// Generate Atom feed from the same posts
+const atomEntries = posts
+  .map(
+    (p) =>
+      `  <entry>
+    <title>${escapeXml(p.title)}</title>
+    <link href="${baseUrl}/blogs/${encodeURIComponent(p.slug)}"/>
+    <id>${baseUrl}/blogs/${encodeURIComponent(p.slug)}</id>
+    <published>${toIsoDate(p.date)}</published>
+    <updated>${toIsoDate(p.date)}</updated>
+    <author><name>${escapeXml(p.author)}</name></author>
+    <summary>${escapeXml(p.description)}</summary>
+  </entry>`,
+  )
+  .join("\n");
+
+const atomFeed = `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Nergy101 Blog</title>
+  <link href="${baseUrl}"/>
+  <link href="${baseUrl}/feed.xml" rel="self" type="application/atom+xml"/>
+  <id>${baseUrl}</id>
+  <updated>${toIsoDate(new Date().toISOString())}</updated>
+  <subtitle>Technology, development, and software engineering from Christian / Nergy101.</subtitle>
+${atomEntries}
+</feed>
+`;
+
+await Deno.writeTextFile(`${distDir}/feed.xml`, atomFeed);
+console.log("Generated feed.xml");
 
 const browserPosts = posts.map((post) => ({
   slug: post.slug,
@@ -277,7 +325,7 @@ const archiveControls =
 
 for (const htmlFile of htmlFiles) {
   const relativePath = htmlFile.slice(distDir.length + 1).replaceAll(
-    "\\\\",
+    "\\\\\\\\\\",
     "/",
   );
   let content = await Deno.readTextFile(htmlFile);
