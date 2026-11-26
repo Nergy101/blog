@@ -325,7 +325,7 @@ const archiveControls =
 
 for (const htmlFile of htmlFiles) {
   const relativePath = htmlFile.slice(distDir.length + 1).replaceAll(
-    "\\\\\\\\\\",
+    "\\\\",
     "/",
   );
   let content = await Deno.readTextFile(htmlFile);
