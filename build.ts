@@ -17,6 +17,10 @@ const distDir = new URL("./dist", import.meta.url).pathname;
 const umamiScript =
   '<script defer src="https://umami.nergy.space/script.js" data-website-id="d3572366-bf4c-462c-8c3e-d3db77869836"></script>';
 
+// Autodiscovery links for the RSS and Atom feeds, injected into <head>
+const feedDiscoveryLinks =
+  '<link rel="alternate" type="application/rss+xml" title="Nergy101 Blog RSS" href="/rss.xml">\n<link rel="alternate" type="application/atom+xml" title="Nergy101 Blog Atom" href="/feed.xml">';
+
 // Recursively find all HTML files in dist directory
 async function findHtmlFiles(dir: string): Promise<string[]> {
   const htmlFiles: string[] = [];
@@ -43,7 +47,15 @@ for (const htmlFile of htmlFiles) {
   }
 
   // Insert the script before the closing </body> tag
-  const updatedContent = content.replace("</body>", `${umamiScript}\n</body>`);
+  let updatedContent = content.replace("</body>", `${umamiScript}\n</body>`);
+
+  // Insert feed autodiscovery links before the closing </head> tag
+  if (!content.includes('rel="alternate"')) {
+    updatedContent = updatedContent.replace(
+      "</head>",
+      `${feedDiscoveryLinks}\n</head>`,
+    );
+  }
 
   await Deno.writeTextFile(htmlFile, updatedContent);
 }
@@ -59,6 +71,7 @@ interface BlogPost {
   author: string;
   slug: string;
   description: string;
+  content: string;
   tags: string[];
   readingMinutes: number;
 }
@@ -106,6 +119,43 @@ function firstParagraph(body: string, maxLen = 300): string {
   return plain.slice(0, maxLen).replace(/\s+\S*$/, "") + "…";
 }
 
+function toCdata(s: string): string {
+  return s.replace(/]]>/g, "]]]]><![CDATA[>");
+}
+
+// Drop </p> end tags that are unexpected in HTML5: the page template emits a
+// stray </p> after the post title, and block elements (headings, <hr>, lists)
+// already close an open <p>, making a trailing </p> invalid.
+function dropStrayCloseP(html: string): string {
+  return html.replace(
+    /(<\/(?:h[1-6]|ul|ol|li|pre|blockquote|table|hr|div|section|article|header|footer|nav|aside|figure|figcaption|p)>)\s*<\/p>/g,
+    "$1",
+  );
+}
+
+// Full rendered post body from the built page, for the feed's full-text content.
+function fullPostHtml(slug: string): string {
+  try {
+    const html = Deno.readTextFileSync(`${distDir}/blogs/${slug}.html`);
+    const match = html.match(/<main[^>]*>([\s\S]*?)<\/main>/);
+    let content = match ? match[1] : "";
+    content = dropStrayCloseP(content);
+    // Root-relative URLs must be absolute (and percent-encoded) for feed readers.
+    content = content.replace(
+      /(href|src)="([^"]*)"/g,
+      (_m, attr: string, url: string) => {
+        if (url.startsWith("/") && !url.startsWith("//")) {
+          return `${attr}="${baseUrl}${encodeURI(url)}"`;
+        }
+        return `${attr}="${url}"`;
+      },
+    );
+    return content.trim();
+  } catch {
+    return "";
+  }
+}
+
 function parseTags(value: unknown): string[] {
   if (Array.isArray(value)) {
     return value.map(String).map((tag) => tag.trim()).filter(Boolean);
@@ -135,6 +185,11 @@ function toRfc822Date(dateStr: string): string {
   return isNaN(d.getTime()) ? new Date().toUTCString() : d.toUTCString();
 }
 
+function toIsoDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+}
+
 const posts: BlogPost[] = [];
 for await (const entry of Deno.readDir(blogsDir)) {
   if (
@@ -150,7 +205,16 @@ for await (const entry of Deno.readDir(blogsDir)) {
   const description = firstParagraph(body);
   const tags = parseTags(frontmatter.tags);
   const readingMinutes = estimateReadingMinutes(body);
-  posts.push({ title, date, author, slug, description, tags, readingMinutes });
+  posts.push({
+    title,
+    date,
+    author,
+    slug,
+    description,
+    content: fullPostHtml(slug),
+    tags,
+    readingMinutes,
+  });
 }
 
 posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -165,14 +229,15 @@ const rssItems = posts
         encodeURIComponent(p.slug)
       }</guid>
     <pubDate>${toRfc822Date(p.date)}</pubDate>
-    <author>${escapeXml(p.author)}</author>
+    <dc:creator>${escapeXml(p.author)}</dc:creator>
     <description>${escapeXml(p.description)}</description>
+    <content:encoded><![CDATA[${toCdata(p.content)}]]></content:encoded>
   </item>`,
   )
   .join("\n");
 
 const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Nergy101 Blog</title>
     <link>${baseUrl}</link>
@@ -187,6 +252,39 @@ ${rssItems}
 
 await Deno.writeTextFile(`${distDir}/rss.xml`, rss);
 console.log("Generated rss.xml");
+
+// Generate Atom feed from the same posts
+const atomEntries = posts
+  .map(
+    (p) =>
+      `  <entry>
+    <title>${escapeXml(p.title)}</title>
+    <link href="${baseUrl}/blogs/${encodeURIComponent(p.slug)}"/>
+    <id>${baseUrl}/blogs/${encodeURIComponent(p.slug)}</id>
+    <published>${toIsoDate(p.date)}</published>
+    <updated>${toIsoDate(p.date)}</updated>
+    <author><name>${escapeXml(p.author)}</name></author>
+    <summary>${escapeXml(p.description)}</summary>
+    <content type="html">${escapeXml(p.content)}</content>
+  </entry>`,
+  )
+  .join("\n");
+
+const atomFeed = `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title>Nergy101 Blog</title>
+  <link href="${baseUrl}/"/>
+  <link href="${baseUrl}/feed.xml" rel="self" type="application/atom+xml"/>
+  <id>${baseUrl}/</id>
+  <updated>${toIsoDate(new Date().toISOString())}</updated>
+  <subtitle>Technology, development, and software engineering from Christian / Nergy101.</subtitle>
+  <dc:language>en-us</dc:language>
+${atomEntries}
+</feed>
+`;
+
+await Deno.writeTextFile(`${distDir}/feed.xml`, atomFeed);
+console.log("Generated feed.xml");
 
 const browserPosts = posts.map((post) => ({
   slug: post.slug,
