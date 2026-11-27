@@ -10,6 +10,9 @@ await build({
   outDir: new URL("./dist", import.meta.url).pathname,
   assetsDir: new URL("./assets", import.meta.url).pathname,
   componentsDir: new URL("./components", import.meta.url).pathname,
+  siteTitle: "Nergy",
+  brandName: "Nergy's Blog",
+  siteUrl: "https://blog.nergy.space",
 });
 
 // Inject Umami analytics script into all HTML files
@@ -382,11 +385,16 @@ for (const htmlFile of htmlFiles) {
   if (relativePath === "blogs/index.html") {
     for (const post of posts) {
       const tagAttribute = escapeHtml(post.tags.join("|"));
-      const original = `<div class="blog-card"> <a href="/blogs/${post.slug}"`;
-      const replacement = `<div class="blog-card" data-blog-post="${
-        escapeHtml(post.slug)
-      }" data-tags="${tagAttribute}"> <a href="/blogs/${post.slug}"`;
-      content = content.replace(original, replacement);
+      const escapedSlug = post.slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const cardPattern = new RegExp(
+        `<div class="blog-card">(\\s*<a href="/blogs/${escapedSlug}")`,
+      );
+      content = content.replace(
+        cardPattern,
+        `<div class="blog-card" data-blog-post="${
+          escapeHtml(post.slug)
+        }" data-tags="${tagAttribute}">$1`,
+      );
     }
     if (posts.length) {
       const firstCard = `<div class="blog-card" data-blog-post="${

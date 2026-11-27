@@ -1,16 +1,16 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@nergy101/astrodon@0.2.7": "0.2.7"
+    "jsr:@nergy101/astrodon@0.3.1": "0.3.1"
   },
   "jsr": {
-    "@nergy101/astrodon@0.2.7": {
-      "integrity": "c9cd45c879d94ca1c6fcb4a23df3ec0bd128c9d378cda929187fe7fe84c5d85a"
+    "@nergy101/astrodon@0.3.1": {
+      "integrity": "fafd7a3e6a848e867e57f93eeb3867e1c134a66516297dc9f43a490fcef72dcf"
     }
   },
   "workspace": {
     "dependencies": [
-      "jsr:@nergy101/astrodon@0.2.7"
+      "jsr:@nergy101/astrodon@0.3.1"
     ]
   }
 }

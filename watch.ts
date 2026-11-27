@@ -33,6 +33,9 @@ async function rebuild() {
       outDir: new URL("./dist", import.meta.url).pathname,
       assetsDir: new URL("./assets", import.meta.url).pathname,
       componentsDir: new URL("./components", import.meta.url).pathname,
+      siteTitle: "Nergy",
+      brandName: "Nergy's Blog",
+      siteUrl: "https://blog.nergy.space",
     });
     
     console.log("✅ Build completed successfully");
