@@ -71,6 +71,7 @@ interface BlogPost {
   author: string;
   slug: string;
   description: string;
+  content: string;
   tags: string[];
   readingMinutes: number;
 }
@@ -116,6 +117,43 @@ function firstParagraph(body: string, maxLen = 300): string {
   ).replace(/\*([^*]+)\*/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
   if (plain.length <= maxLen) return plain;
   return plain.slice(0, maxLen).replace(/\s+\S*$/, "") + "…";
+}
+
+function toCdata(s: string): string {
+  return s.replace(/]]>/g, "]]]]><![CDATA[>");
+}
+
+// Drop </p> end tags that are unexpected in HTML5: the page template emits a
+// stray </p> after the post title, and block elements (headings, <hr>, lists)
+// already close an open <p>, making a trailing </p> invalid.
+function dropStrayCloseP(html: string): string {
+  return html.replace(
+    /(<\/(?:h[1-6]|ul|ol|li|pre|blockquote|table|hr|div|section|article|header|footer|nav|aside|figure|figcaption|p)>)\s*<\/p>/g,
+    "$1",
+  );
+}
+
+// Full rendered post body from the built page, for the feed's full-text content.
+function fullPostHtml(slug: string): string {
+  try {
+    const html = Deno.readTextFileSync(`${distDir}/blogs/${slug}.html`);
+    const match = html.match(/<main[^>]*>([\s\S]*?)<\/main>/);
+    let content = match ? match[1] : "";
+    content = dropStrayCloseP(content);
+    // Root-relative URLs must be absolute (and percent-encoded) for feed readers.
+    content = content.replace(
+      /(href|src)="([^"]*)"/g,
+      (_m, attr: string, url: string) => {
+        if (url.startsWith("/") && !url.startsWith("//")) {
+          return `${attr}="${baseUrl}${encodeURI(url)}"`;
+        }
+        return `${attr}="${url}"`;
+      },
+    );
+    return content.trim();
+  } catch {
+    return "";
+  }
 }
 
 function parseTags(value: unknown): string[] {
@@ -167,7 +205,16 @@ for await (const entry of Deno.readDir(blogsDir)) {
   const description = firstParagraph(body);
   const tags = parseTags(frontmatter.tags);
   const readingMinutes = estimateReadingMinutes(body);
-  posts.push({ title, date, author, slug, description, tags, readingMinutes });
+  posts.push({
+    title,
+    date,
+    author,
+    slug,
+    description,
+    content: fullPostHtml(slug),
+    tags,
+    readingMinutes,
+  });
 }
 
 posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -182,14 +229,15 @@ const rssItems = posts
         encodeURIComponent(p.slug)
       }</guid>
     <pubDate>${toRfc822Date(p.date)}</pubDate>
-    <author>${escapeXml(p.author)}</author>
+    <dc:creator>${escapeXml(p.author)}</dc:creator>
     <description>${escapeXml(p.description)}</description>
+    <content:encoded><![CDATA[${toCdata(p.content)}]]></content:encoded>
   </item>`,
   )
   .join("\n");
 
 const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Nergy101 Blog</title>
     <link>${baseUrl}</link>
@@ -217,18 +265,20 @@ const atomEntries = posts
     <updated>${toIsoDate(p.date)}</updated>
     <author><name>${escapeXml(p.author)}</name></author>
     <summary>${escapeXml(p.description)}</summary>
+    <content type="html">${escapeXml(p.content)}</content>
   </entry>`,
   )
   .join("\n");
 
 const atomFeed = `<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <title>Nergy101 Blog</title>
-  <link href="${baseUrl}"/>
+  <link href="${baseUrl}/"/>
   <link href="${baseUrl}/feed.xml" rel="self" type="application/atom+xml"/>
-  <id>${baseUrl}</id>
+  <id>${baseUrl}/</id>
   <updated>${toIsoDate(new Date().toISOString())}</updated>
   <subtitle>Technology, development, and software engineering from Christian / Nergy101.</subtitle>
+  <dc:language>en-us</dc:language>
 ${atomEntries}
 </feed>
 `;
